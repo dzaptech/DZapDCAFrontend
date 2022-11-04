@@ -1,0 +1,37 @@
+// .ant-tooltip {
+//     max-width: 390px !important;
+// }
+
+.tooltip_info {
+    color: #121619 !important;
+}
+
+.tooltip_info_title {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 16px;
+    display: flex;
+    align-items: center;
+    color: #121619;
+}
+
+.tooltip_info_desc {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
+    color: #4D5358;
+}
+
+.tooltip_common:hover {
+    background: transparent !important;
+}
+
+.tooltip_common_stable {
+    object-fit: contain;
+    height: 13.33px !important;
+    width: 13.33px !important;
+}

@@ -1,0 +1,84 @@
+.active_category {
+    color: var(--font-primary);
+    border-bottom: 1px solid var(--font-primary);
+}
+
+.create-layout {
+    background: #21262A;
+    border-radius: 4px;
+}
+
+.btn-radio {
+    background: rgba(255, 255, 255, 0.05);
+    border: none !important;
+    border-radius: 3px !important;
+    height: 32px !important;
+    font-family: 'Mulish';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.87);
+    margin-right: 4px;
+}
+
+.btn-radio:hover {
+    background: #00FFA4;
+    color: #232325;
+}
+
+.container-summary {
+    background: #343A3F;
+    border-radius: 4px;
+}
+
+.create-position-btn {
+    height: 48px;
+    border-radius: 2px;
+    background: #00FFA4;
+    border: 1px solid #00FFA4;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 24px;
+    color: #000000;
+}
+
+.btn-learn-more {
+    color: #00FFA4;
+}
+
+.create-position-input {
+    background: #121619;
+    border: 1px solid #343A3F;
+    border-radius: 4px;
+    height: 44px;
+}
+
+.input-investment {
+    background: #121619;
+    border: 1px solid #343A3F;
+    border-radius: 4px;
+    height: 33px;
+}
+
+.wallet-balance {
+    background: #343A3F;
+    border: 1px solid #4D5358;
+    border-radius: 100px;
+    height: 24px;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 16px;
+    color: #CED4D9;
+    text-align: center;
+    padding-top: 3px;
+}
+
+.ant-input {
+    // padding: 0 40px !important;
+    color: #fff;
+    background-color: #121619;
+}

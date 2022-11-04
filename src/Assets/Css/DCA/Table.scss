@@ -1,0 +1,70 @@
+th {
+    background: #343A3F !important;
+    height: 64px;
+    font-family: 'Inter' !important;
+    font-style: normal !important;
+    font-weight: 400 !important;
+    font-size: 14px !important;
+    line-height: 20px !important;
+    color: #FFFFFF !important;
+}
+
+.trx-table {
+    background: #121619 !important;
+}
+
+tr {
+    background: #121619 !important;
+    height: 54px !important;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
+    color: rgba(255, 255, 255, 0.87);
+}
+
+.ant-table-container .ant-table-content table .ant-table-thead tr th:first-child {
+    border-top-left-radius: 8px !important;
+    border-bottom-left-radius: 8px !important;
+}
+
+.ant-table-container .ant-table-content table .ant-table-thead tr th:last-child {
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+.ant-table-tbody>tr>td {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    transition: background 0.3s;
+    height: 64px;
+}
+
+.ant-table-tbody>tr>tr.ant-table-row>td,
+.ant-table-tbody>tr>td.ant-table-cell-row-hover {
+    border-bottom: 1px solid #00FFA4;
+    background: #121619 !important;
+}
+
+.ant-table-thead>tr>th {
+    border-bottom: none;
+}
+
+.ant-table {
+    border-radius: 78px !important;
+    background: #121619 !important;
+}
+
+.ant-pagination-item-active {
+    font-weight: 500;
+    color: #fff !important;
+    height: 36px;
+    width: 80px;
+    background: #292e30;
+    border-color: #2a2e30;
+}
+
+.ant-pagination-item-active a,
+.ant-pagination-item-active a:hover {
+    color: #fff;
+}
