@@ -1,6 +1,7 @@
 import { Form, Input } from 'antd';
 import wallet from '../../../../../../Assets/Icons/wallet.svg';
 import Button from '../../../../../../Components/Button/Button';
+import { DCA_FORM_FIELD } from '../../../../../../Logic/DCA/Create/Constants';
 import { setFormValues } from '../../../../../../Logic/DCA/Create/Utils/FormUtils';
 import { TokenTypes } from '../../../../../../Types';
 import {
@@ -26,8 +27,8 @@ function InvestmentAmount({
         Investment amount
       </p>
       <Form.Item
-        name="amount"
-        id="amount"
+        name={DCA_FORM_FIELD.amount}
+        id={DCA_FORM_FIELD.amount}
         // rules={[
         //   {
         //     required: true,

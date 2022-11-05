@@ -8,8 +8,8 @@ import AuthContext from '../../../../Context/AuthContext';
 import { RootState } from '../../../../Store';
 import { getDefaultToken } from '../../../../Utils/AppUtils';
 import { parseJsonString } from '../../../../Utils/GeneralUtils';
-import { SECONDARY_TOKEN } from '../Constants';
-import { setFormValues } from '../Utils/FormUtils';
+import { DCA_FORM_FIELD, SECONDARY_TOKEN } from '../Constants';
+import { getFormValues, setFormValues } from '../Utils/FormUtils';
 
 function initDCAForm() {
   const [form] = Form.useForm();
@@ -37,13 +37,42 @@ function initDCAForm() {
 
   useEffect(() => {
     if (defaultSelect.from) {
-      setFormValues(form, 'fromToken', JSON.stringify(defaultSelect.from));
+      setFormValues(
+        form,
+        DCA_FORM_FIELD.fromToken,
+        JSON.stringify(defaultSelect.from),
+      );
     }
   }, [defaultSelect.from]);
 
   const currentFromToken =
-    parseJsonString(Form.useWatch('fromToken', form)) || SAMPLE_TOKEN;
+    parseJsonString(Form.useWatch(DCA_FORM_FIELD.fromToken, form)) ||
+    SAMPLE_TOKEN;
 
+  const swapToken = () => {
+    const fromToken = parseJsonString(
+      getFormValues(form, DCA_FORM_FIELD.fromToken),
+    );
+    const toToken = parseJsonString(
+      getFormValues(form, DCA_FORM_FIELD.toToken),
+    );
+    if (fromToken) {
+      const newFromToken = fromTokens.find(
+        (item) => item.contract === toToken.contract,
+      );
+      setFormValues(
+        form,
+        DCA_FORM_FIELD.fromToken,
+        JSON.stringify(newFromToken),
+      );
+    }
+    if (toToken) {
+      const newToToken = toTokens.find(
+        (item) => item.contract === fromToken.contract,
+      );
+      setFormValues(form, DCA_FORM_FIELD.toToken, JSON.stringify(newToToken));
+    }
+  };
   return {
     fromTokens,
     toTokens,
@@ -51,6 +80,7 @@ function initDCAForm() {
     defaultSelect,
     currentFromToken,
     isApproved,
+    swapToken,
   };
 }
 export default initDCAForm;

@@ -1,6 +1,7 @@
 import { Form, Select } from 'antd';
 import downArrow from '../../../../../../Assets/Icons/dropdown-arrow.svg';
 import swap from '../../../../../../Assets/Icons/swap.svg';
+import Button from '../../../../../../Components/Button/Button';
 import { TokenTypes } from '../../../../../../Types';
 import { getAlternateTokenIcon } from '../../../../../../Utils/GeneralUtils';
 
@@ -9,9 +10,11 @@ const { Option } = Select;
 function TokenSelector({
   fromTokens,
   toTokens,
+  swapToken,
 }: {
   fromTokens: TokenTypes[];
   toTokens: TokenTypes[];
+  swapToken: Function;
 }) {
   const alternateIcon = getAlternateTokenIcon();
   return (
@@ -45,7 +48,9 @@ function TokenSelector({
         </Form.Item>
       </div>
       <div className="sm:col-span-2">
-        <img src={swap} alt="" className="mx-4 h-8 w-8" />
+        <Button onClick={() => swapToken()}>
+          <img src={swap} alt="" className="mx-4 h-8 w-8" />
+        </Button>
       </div>
       <div className="sm:col-span-5">
         <p className="mb-1 font-semibold text-sm text-white mullish">Receive</p>

@@ -1,4 +1,5 @@
 import { Form } from 'antd';
+import { DCA_FORM_FIELD } from '../../../../../Logic/DCA/Create/Constants';
 import initDCAForm from '../../../../../Logic/DCA/Create/Hooks/initDCAForm';
 import InvestmentAmount from './Widgets/InvestmentAmount';
 import InvestmentPeriod from './Widgets/InvestmentPeriod';
@@ -13,6 +14,7 @@ function CreatePositionForm() {
     form,
     currentFromToken,
     isApproved,
+    swapToken,
   } = initDCAForm();
 
   return (
@@ -21,14 +23,20 @@ function CreatePositionForm() {
         <Form
           form={form}
           initialValues={{
-            fromToken: defaultSelect.from
+            [DCA_FORM_FIELD.fromToken]: defaultSelect.from
               ? JSON.stringify(defaultSelect.from)
               : null,
-            toToken: defaultSelect.to ? JSON.stringify(defaultSelect.to) : null,
-            period: '30',
+            [DCA_FORM_FIELD.toToken]: defaultSelect.to
+              ? JSON.stringify(defaultSelect.to)
+              : null,
+            [DCA_FORM_FIELD.period]: '30',
           }}
         >
-          <TokenSelector fromTokens={fromTokens} toTokens={toTokens} />
+          <TokenSelector
+            swapToken={swapToken}
+            fromTokens={fromTokens}
+            toTokens={toTokens}
+          />
           <InvestmentAmount form={form} currentFromToken={currentFromToken} />
           <InvestmentPeriod form={form} />
         </Form>

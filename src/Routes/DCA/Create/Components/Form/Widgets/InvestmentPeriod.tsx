@@ -1,8 +1,9 @@
 import { Form, Input, Radio } from 'antd';
+import { DCA_FORM_FIELD } from '../../../../../../Logic/DCA/Create/Constants';
 import { setFormValues } from '../../../../../../Logic/DCA/Create/Utils/FormUtils';
 
 function InvestmentPeriod({ form }: { form: any }) {
-  const period = Form.useWatch('period', form);
+  const period = Form.useWatch(DCA_FORM_FIELD.period, form);
   const cycle = [
     {
       value: '1',
@@ -34,7 +35,7 @@ function InvestmentPeriod({ form }: { form: any }) {
   return (
     <div>
       <p className="font-semibold text-sm text-white mullish">How often?</p>
-      <Form.Item name="cycle" id="cycle">
+      <Form.Item name={DCA_FORM_FIELD.cycle} id={DCA_FORM_FIELD.cycle}>
         <Radio.Group defaultValue="1" buttonStyle="solid">
           {cycle.map((item) => (
             <Radio.Button className="btn-radio" value={item.value}>
@@ -48,8 +49,8 @@ function InvestmentPeriod({ form }: { form: any }) {
       </p>
       <div className="flex">
         <Form.Item
-          name="period"
-          id="period"
+          name={DCA_FORM_FIELD.period}
+          id={DCA_FORM_FIELD.period}
           //   rules={[
           //     {
           //       required: true,
@@ -66,7 +67,9 @@ function InvestmentPeriod({ form }: { form: any }) {
         <Radio.Group className="ml-2" value={period} buttonStyle="solid">
           {customPeriod.map((item) => (
             <Radio.Button
-              onClick={() => setFormValues(form, 'period', item.value)}
+              onClick={() =>
+                setFormValues(form, DCA_FORM_FIELD.period, item.value)
+              }
               className="btn-radio"
               value={item.value}
             >

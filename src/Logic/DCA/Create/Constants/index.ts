@@ -1,8 +1,12 @@
 import { BigNumber } from 'ethers';
 import { TokenTypes } from '../../../../Types';
 
-export const APP = {
-  dca: 'dca',
+export const DCA_FORM_FIELD = {
+  fromToken: 'fromToken',
+  toToken: 'toToken',
+  amount: 'amount',
+  period: 'period',
+  cycle: 'cycle',
 };
 
 export const SECONDARY_TOKEN: { [key: number]: TokenTypes } = {
