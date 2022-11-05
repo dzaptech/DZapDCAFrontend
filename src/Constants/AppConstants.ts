@@ -3,6 +3,9 @@ import { TokenTypes } from '../Types';
 
 export const DECIMAL_PLACES = 2;
 
+export const ERC_20_ABI_PATH = 'erc20-abi.json';
+export const LOCAL_STORAGE_TOKEN_LIST_KEY = 'tokenList';
+
 export const STATUS = {
   pending: 'Pending',
   inProgress: 'InProgress',

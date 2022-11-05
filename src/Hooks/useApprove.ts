@@ -3,7 +3,7 @@
 import { useContext } from 'react';
 import { dcaVersion } from '../Config/AppConfig';
 import { STATUS } from '../Constants/AppConstants';
-import { DE_ZAP_CONTRACTS } from '../Constants/ContractHistory';
+import { DCA_CONTRACTS } from '../Constants/ContractHistory';
 import AuthContext from '../Context/AuthContext';
 import { initializeERC20TokenContract } from '../Utils/ContractUtils';
 import { Logger } from '../Utils/Exceptions';
@@ -16,7 +16,7 @@ function useApprove() {
   const { readWriteProvider, chainId } = useContext(AuthContext);
   const approve = async (contract: string, isRemove = false) => {
     try {
-      const contractAddress = DE_ZAP_CONTRACTS[dcaVersion][chainId];
+      const contractAddress = DCA_CONTRACTS[dcaVersion][chainId];
 
       const tokenContract = initializeERC20TokenContract({
         tokenAddress: contract,

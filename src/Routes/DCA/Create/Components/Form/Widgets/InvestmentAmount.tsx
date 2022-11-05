@@ -1,44 +1,61 @@
 import { Form, Input } from 'antd';
 import wallet from '../../../../../../Assets/Icons/wallet.svg';
 import Button from '../../../../../../Components/Button/Button';
-import { SAMPLE_TOKEN } from '../../../../../../Constants';
-import { getAlternateTokenIcon } from '../../../../../../Utils/GeneralUtils';
+import { setFormValues } from '../../../../../../Logic/DCA/Create/Utils/FormUtils';
+import { TokenTypes } from '../../../../../../Types';
+import {
+  currencyFormatter,
+  getAlternateTokenIcon,
+  truncateDecimals,
+} from '../../../../../../Utils/GeneralUtils';
 
-function InvestmentAmount() {
-  const token = SAMPLE_TOKEN;
+function InvestmentAmount({
+  currentFromToken,
+  form,
+}: {
+  currentFromToken: TokenTypes;
+  form: any;
+}) {
+  const balance = +currencyFormatter(
+    currentFromToken.balance,
+    currentFromToken.decimals,
+  );
   return (
     <div>
+      <p className="mb-1 font-semibold text-sm text-white mullish">
+        Investment amount
+      </p>
       <Form.Item
-        name="gatherCurrency"
-        id="gatherCurrency"
-        rules={[
-          {
-            required: true,
-            message: 'Please select gather currency!',
-          },
-        ]}
+        name="amount"
+        id="amount"
+        // rules={[
+        //   {
+        //     required: true,
+        //     message: 'Please select gather currency!',
+        //   },
+        // ]}
       >
-        <p className="mb-1 font-semibold text-sm text-white mullish">
-          Investment amount
-        </p>
         <Input
           placeholder="0"
           type="number"
           prefix={
             <img
               className="rounded-full h-6 w-6 mr-2"
-              src={token.logo}
+              src={currentFromToken.logo}
               alt={getAlternateTokenIcon()}
             />
           }
           suffix={
-            <Button className="wallet-balance px-4 flex">
+            <Button
+              onClick={() => setFormValues(form, 'amount', balance)}
+              className="wallet-balance px-4 flex"
+            >
               <img
                 className="rounded-full h-4 w-4 mr-1"
                 src={wallet}
                 alt={getAlternateTokenIcon()}
               />
-              3.77 MATIC
+              {truncateDecimals(balance)} {currentFromToken.symbol}
             </Button>
           }
           className="w-full create-position-input px-3"

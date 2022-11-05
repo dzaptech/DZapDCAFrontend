@@ -1,17 +1,19 @@
 import { Form, Input, Radio } from 'antd';
+import { setFormValues } from '../../../../../../Logic/DCA/Create/Utils/FormUtils';
 
-function InvestmentPeriod() {
-  const period = [
+function InvestmentPeriod({ form }: { form: any }) {
+  const period = Form.useWatch('period', form);
+  const cycle = [
     {
-      value: 'daily',
+      value: '1',
       label: 'Daily',
     },
     {
-      value: 'weekly',
+      value: '7',
       label: 'Weekly',
     },
     {
-      value: 'monthly',
+      value: '30',
       label: 'Monthly',
     },
   ];
@@ -32,26 +34,28 @@ function InvestmentPeriod() {
   return (
     <div>
       <p className="font-semibold text-sm text-white mullish">How often?</p>
-      <Radio.Group defaultValue="daily" buttonStyle="solid">
-        {period.map((item) => (
-          <Radio.Button className="btn-radio" value={item.value}>
-            {item.label}
-          </Radio.Button>
-        ))}
-      </Radio.Group>
+      <Form.Item name="cycle" id="cycle">
+        <Radio.Group defaultValue="1" buttonStyle="solid">
+          {cycle.map((item) => (
+            <Radio.Button className="btn-radio" value={item.value}>
+              {item.label}
+            </Radio.Button>
+          ))}
+        </Radio.Group>
+      </Form.Item>
       <p className="mb-1 mt-8 font-semibold text-sm text-white mullish">
         Investment Period
       </p>
       <div className="flex">
         <Form.Item
-          name="gatherCurrency"
-          id="gatherCurrency"
-          rules={[
-            {
-              required: true,
-              message: 'Please select gather currency!',
-            },
-          ]}
+          name="period"
+          id="period"
+          //   rules={[
+          //     {
+          //       required: true,
+          //       message: '!',
+          //     },
+          //   ]}
         >
           <Input
             placeholder="Custom"
@@ -59,9 +63,13 @@ function InvestmentPeriod() {
             className="w-full input-investment px-3"
           />
         </Form.Item>
-        <Radio.Group className="ml-2" defaultValue="daily" buttonStyle="solid">
+        <Radio.Group className="ml-2" value={period} buttonStyle="solid">
           {customPeriod.map((item) => (
-            <Radio.Button className="btn-radio" value={item.value}>
+            <Radio.Button
+              onClick={() => setFormValues(form, 'period', item.value)}
+              className="btn-radio"
+              value={item.value}
+            >
               {item.label}
             </Radio.Button>
           ))}

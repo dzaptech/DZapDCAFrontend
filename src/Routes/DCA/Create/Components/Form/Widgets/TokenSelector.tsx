@@ -1,30 +1,33 @@
 import { Form, Select } from 'antd';
 import downArrow from '../../../../../../Assets/Icons/dropdown-arrow.svg';
 import swap from '../../../../../../Assets/Icons/swap.svg';
-import { APP } from '../../../../../../Constants/AppConstants';
 import { TokenTypes } from '../../../../../../Types';
-import { getDefaultToken } from '../../../../../../Utils/AppUtils';
 import { getAlternateTokenIcon } from '../../../../../../Utils/GeneralUtils';
 
 const { Option } = Select;
 
-function TokenSelector() {
-  const defualtToken = getDefaultToken(APP.dca, 56);
+function TokenSelector({
+  fromTokens,
+  toTokens,
+}: {
+  fromTokens: TokenTypes[];
+  toTokens: TokenTypes[];
+}) {
   const alternateIcon = getAlternateTokenIcon();
   return (
     <dl className="grid grid-cols-1 sm:grid-cols-12">
       <div className="sm:col-span-5">
-        <Form.Item name="sellToken" id="sellToken">
-          <p className="mb-1 font-semibold text-sm text-white mullish">Sell</p>
+        <p className="mb-1 font-semibold text-sm text-white mullish">Sell</p>
+        <Form.Item name="fromToken" id="fromTokens">
           <Select
             placeholder="Select token"
-            defaultValue={JSON.stringify(defualtToken)}
             className="w-full create-position-select-box"
+            showSearch
             suffixIcon={
               <img className="-rotate-180 right-0" src={downArrow} alt="" />
             }
           >
-            {[defualtToken].map((item: TokenTypes) => (
+            {fromTokens.map((item: TokenTypes) => (
               <Option value={JSON.stringify(item)} key={item.contract}>
                 <div className="flex items-center">
                   <img
@@ -45,19 +48,17 @@ function TokenSelector() {
         <img src={swap} alt="" className="mx-4 h-8 w-8" />
       </div>
       <div className="sm:col-span-5">
-        <Form.Item name="buyToken" id="buyToken">
-          <p className="mb-1 font-semibold text-sm text-white mullish">
-            Receive
-          </p>
+        <p className="mb-1 font-semibold text-sm text-white mullish">Receive</p>
+        <Form.Item name="toToken" id="toTokens">
           <Select
             placeholder="Select token"
-            defaultValue={JSON.stringify(defualtToken)}
+            showSearch
             className="w-full create-position-select-box"
             suffixIcon={
               <img className="-rotate-180 right-0" src={downArrow} alt="" />
             }
           >
-            {[defualtToken].map((item: TokenTypes) => (
+            {toTokens.map((item: TokenTypes) => (
               <Option
                 value={JSON.stringify(item)}
                 //   disabled={batchSellSelectedTokens[item.contract]}

@@ -1,31 +1,48 @@
+import { Form } from 'antd';
 import refresh from '../../../../../../Assets/Icons/refresh.svg';
 import setting from '../../../../../../Assets/Icons/setting.svg';
 import Button from '../../../../../../Components/Button/Button';
+import { TokenTypes } from '../../../../../../Types';
+import { abbreviateNumber } from '../../../../../../Utils/GeneralUtils';
 
-const summary = [
-  {
-    id: 1,
-    key: 'Swap amount',
-    value: '3.775 MATIC',
-  },
-  {
-    id: 2,
-    key: 'Recurring cycle',
-    value: 'Daily',
-  },
-  {
-    id: 3,
-    key: 'Investment Period',
-    value: '5 Days',
-  },
-  {
-    id: 4,
-    key: 'Total Investment Amount',
-    value: '3.775 MATIC',
-  },
-];
+export default function Summary({
+  currentFromToken,
+  form,
+  isApproved,
+}: {
+  currentFromToken: TokenTypes;
+  form: any;
+  isApproved: boolean;
+}) {
+  const amount = Form.useWatch('amount', form) || 0;
+  const cycle = +Form.useWatch('cycle', form) || 1;
+  let period = +Form.useWatch('period', form);
+  period = period !== 0 ? period : 1;
 
-export default function Summary() {
+  const swapAmount = (amount / period) * cycle;
+  const summary = [
+    {
+      id: 1,
+      key: 'Swap amount',
+      value: `${abbreviateNumber(swapAmount || 0)} ${currentFromToken.symbol}`,
+    },
+    {
+      id: 2,
+      key: 'Recurring cycle',
+      value: cycle,
+    },
+    {
+      id: 3,
+      key: 'Investment Period',
+      value: `${period} Days`,
+    },
+    {
+      id: 4,
+      key: 'Total Investment Amount',
+      value: `${abbreviateNumber(amount)} ${currentFromToken.symbol}`,
+    },
+  ];
+
   return (
     <div className="md:col-span-1 ml-5">
       <div className="flex justify-end pb-3">
@@ -100,7 +117,9 @@ export default function Summary() {
           </p>
         </Button>
       </p>
-      <Button className="create-position-btn w-full mt-2">Approve USDT</Button>
+      <Button className="create-position-btn w-full mt-2">
+        {!isApproved && 'Approve'} {currentFromToken.symbol}
+      </Button>
     </div>
   );
 }
