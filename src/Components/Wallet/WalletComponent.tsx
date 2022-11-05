@@ -1,5 +1,5 @@
 import { message } from 'antd';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { useSelector } from 'react-redux';
 import copy from '../../Assets/Icons/copy.svg';
@@ -22,7 +22,7 @@ function WalletComponent() {
     (state: RootState) => state.common,
   );
   const { balance } = nativeCurrencyInfo;
-
+  const [showWalletInfo, setShowWalletInfo] = useState(false);
   const { account } = useContext(AuthContext);
 
   const walletConnector = localStorage.getItem('walletConnector');
@@ -32,9 +32,9 @@ function WalletComponent() {
         <div className="relative wallet_connected_parent">
           <button
             type="button"
-            // onClick={() => {
-            //   setIsComponentVisible(!isComponentVisible);
-            // }}
+            onClick={() => {
+              setShowWalletInfo(!showWalletInfo);
+            }}
           >
             <div className="wallet_connected h-full flex justify-center items-center gap-x-3">
               <div className="h-4 w-4">
@@ -49,7 +49,7 @@ function WalletComponent() {
               </div>
             </div>
           </button>
-          {false && (
+          {showWalletInfo && (
             <div className="absolute wallet_connected_box z-10">
               <div className="wallet_connected_box_inner flex flex-col justify-between">
                 <div className="flex w-full justify-between items-center">
@@ -91,7 +91,7 @@ function WalletComponent() {
                     type="button"
                     onClick={() => {
                       handleNetwork();
-                    //   setIsComponentVisible(false);
+                      setShowWalletInfo(false);
                     }}
                   >
                     <img

@@ -279,6 +279,12 @@ button.dropdown:focus-visible,
     background: var(--black);
 }
 
+.invalid_chain_glow {
+    animation: glowing 1s infinite;
+    box-shadow: 0px 0px 16px rgba(251, 135, 68, 0.42);
+    background: var(--black);
+}
+
 @keyframes glowing {
     0% {
         box-shadow: 0px 0px 16px #324e3d;

@@ -6,7 +6,8 @@ import { useDispatch } from 'react-redux';
 import Web3Modal from 'web3modal';
 import { defaultChainId } from '../Config/AppConfig';
 import { JSON_RPC_PROVIDER } from '../Config/ChainConfig';
-import { setTokenList } from '../Store/CommonReducer';
+import { setIsUnsupportedChain, setTokenList } from '../Store/CommonReducer';
+import { isSupportedChain } from '../Utils/ChainUtils';
 import { initializeReadOnlyProvider } from '../Utils/ContractUtils';
 
 const providerOptions = {
@@ -71,7 +72,13 @@ function useAuth() {
     const account = await ethersProvider.listAccounts();
     setAccount(account[0]);
     // setAccount('0x2CB99F193549681e06C6770dDD5543812B4FaFE8');
-    setChainId(chainId);
+    if (isSupportedChain(chainId)) {
+      setChainId(chainId);
+      dispatch(setIsUnsupportedChain(false));
+    } else {
+      setChainId(defaultChainId);
+      dispatch(setIsUnsupportedChain(true));
+    }
     // getNativeBalance(ethersProvider, chainId, account[0]);
     setReadOnlyProvider(initializeReadOnlyProvider(chainId));
     localStorage.setItem('account', account[0]);

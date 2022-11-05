@@ -37,7 +37,7 @@ export const common = createSlice({
   name: 'common',
   initialState,
   reducers: {
-    unsupportedChainHandler: (state, action: PayloadAction<boolean>) => {
+    setIsUnsupportedChain: (state, action: PayloadAction<boolean>) => {
       state.isUnsupportedChain = action.payload;
     },
     setIsTokenModal: (state, action: PayloadAction<boolean>) => {
@@ -71,7 +71,7 @@ export const common = createSlice({
 });
 
 export const {
-  unsupportedChainHandler,
+  setIsUnsupportedChain,
   setNativeCurrencyInfo,
   setTokenList,
   setIsTokenModal,

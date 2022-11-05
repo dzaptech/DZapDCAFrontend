@@ -1,8 +1,10 @@
 import { Menu, Transition } from '@headlessui/react';
 import { Fragment, useContext } from 'react';
+import { useSelector } from 'react-redux';
 import downArrow from '../../Assets/Icons/dropdown-arrow.svg';
 import { supportedChains } from '../../Config/ChainConfig';
 import AuthContext from '../../Context/AuthContext';
+import { RootState } from '../../Store';
 import { getChainInfoValue, switchNetwork } from '../../Utils/ChainUtils';
 import { getAlternateTokenIcon } from '../../Utils/GeneralUtils';
 
@@ -12,6 +14,9 @@ type SupportedChainListProps = {
 };
 function SupportedChainList({ position, shade }: SupportedChainListProps) {
   const { chainId: currentChainId } = useContext(AuthContext);
+  const { isUnsupportedChain } = useSelector(
+    (state: RootState) => state.common,
+  );
   return (
     <Menu as="div" className="relative inline-block text-left">
       <div
@@ -29,22 +34,26 @@ function SupportedChainList({ position, shade }: SupportedChainListProps) {
           <div className="flex items-center dropdown_inner chain_list justify-between">
             <div className="flex items-center dropdown_text">
               {getChainInfoValue(currentChainId, 'name') ? (
-                <>
-                <div className='dropdown_light' />
-                  <img
-                    src={getChainInfoValue(currentChainId, 'icon')?.toString()}
-                    className="w-6 h-6 object-contain mr-2.5"
-                    alt="coin"
-                    onError={({ currentTarget: target }) => {
-                      const currentTarget = target;
-                      currentTarget.onerror = null;
-                      currentTarget.src = getAlternateTokenIcon();
-                    }}
-                  />
-                  <p className="dropdown_text">
-                    {getChainInfoValue(currentChainId, 'name')}
-                  </p>
-                </>
+                <div className='flex'>
+                  {isUnsupportedChain ? (
+                    <p className="text-red-500 font-semibold">Invalid chain</p>
+                  ) : (
+                    <>
+                      <div className="dropdown_light" />
+                      <img
+                        src={getChainInfoValue(
+                          currentChainId,
+                          'icon',
+                        )?.toString()}
+                        className="w-6 h-6 object-contain mr-2.5"
+                        alt="coin"
+                      />
+                      <p className="dropdown_text pt-px">
+                        {getChainInfoValue(currentChainId, 'name')}
+                      </p>
+                    </>
+                  )}
+                </div>
               ) : (
                 <>Select chain</>
               )}
@@ -73,7 +82,8 @@ function SupportedChainList({ position, shade }: SupportedChainListProps) {
               <Menu.Button
                 disabled={currentChainId === chainId}
                 onClick={() => switchNetwork(chainId)}
-                className={`w-full dropdown_list_child ${currentChainId === chainId && 'cursor-not-allowed'
+                className={`w-full dropdown_list_child ${
+                  currentChainId === chainId && 'cursor-not-allowed'
                 }`}
                 key={chainId}
               >
