@@ -41,7 +41,7 @@ export const APP_DATA: {
   [key: string]: {
     [key: number]: {
       slippage: number;
-      gasMultiplier: number;
+      gasMultiplier: [number, number];
       defaultToken: TokenTypes;
       quoteExpiry: number;
     };
@@ -50,7 +50,7 @@ export const APP_DATA: {
   [APP.dca]: {
     1: {
       slippage: 1,
-      gasMultiplier: 1.1,
+      gasMultiplier: [15, 10],
       defaultToken: {
         ...sampleToken,
         contract: '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48',
@@ -60,7 +60,7 @@ export const APP_DATA: {
     },
     56: {
       slippage: 1,
-      gasMultiplier: 1.1,
+      gasMultiplier: [11, 10],
       defaultToken: {
         ...sampleToken,
         contract: '0x8ac76a51cc950d9822d68b83fe1ad97b32cd580d',
@@ -70,7 +70,7 @@ export const APP_DATA: {
     },
     137: {
       slippage: 1,
-      gasMultiplier: 1.2,
+      gasMultiplier: [12, 10],
       defaultToken: {
         ...sampleToken,
         contract: '0x2791bca1f2de4661ed88a30c99a7a9449aa84174',

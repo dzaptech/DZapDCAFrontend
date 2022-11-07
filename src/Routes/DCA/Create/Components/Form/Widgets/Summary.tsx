@@ -1,49 +1,26 @@
-import { Form } from 'antd';
 import refresh from '../../../../../../Assets/Icons/refresh.svg';
 import setting from '../../../../../../Assets/Icons/setting.svg';
 import Button from '../../../../../../Components/Button/Button';
-import { DCA_FORM_FIELD } from '../../../../../../Logic/DCA/Create/Constants';
+import useSummary from '../../../../../../Logic/DCA/Create/Hooks/useSummary';
 import { TokenTypes } from '../../../../../../Types';
-import { abbreviateNumber } from '../../../../../../Utils/GeneralUtils';
 
 export default function Summary({
   currentFromToken,
   form,
-  isApproved,
+  cycleKey,
+  hasAllowance,
 }: {
   currentFromToken: TokenTypes;
   form: any;
-  isApproved: boolean;
+  cycleKey: string;
+  hasAllowance: boolean;
 }) {
-  const amount = Form.useWatch(DCA_FORM_FIELD.amount, form) || 0;
-  const cycle = +Form.useWatch(DCA_FORM_FIELD.cycle, form) || 1;
-  let period = +Form.useWatch(DCA_FORM_FIELD.period, form);
-  period = period !== 0 ? period : 1;
-
-  const swapAmount = (amount / period) * cycle;
-  const summary = [
-    {
-      id: 1,
-      key: 'Swap amount',
-      value: `${abbreviateNumber(swapAmount || 0)} ${currentFromToken.symbol}`,
-    },
-    {
-      id: 2,
-      key: 'Recurring cycle',
-      value: cycle,
-    },
-    {
-      id: 3,
-      key: 'Investment Period',
-      value: `${period} Days`,
-    },
-    {
-      id: 4,
-      key: 'Total Investment Amount',
-      value: `${abbreviateNumber(amount)} ${currentFromToken.symbol}`,
-    },
-  ];
-
+  const { summary, isDisable, isLoading, btn } = useSummary({
+    currentFromToken,
+    cycleKey,
+    form,
+    hasAllowance,
+  });
   return (
     <div className="md:col-span-1 ml-5">
       <div className="flex justify-end pb-3">
@@ -51,7 +28,7 @@ export default function Summary({
         <img src={setting} alt="" className="ml-3" />
       </div>
       <div className="container-summary">
-        <p className="pl-4 pt-4 text-sm font-semibold">Summary</p>
+        <p className="pl-4 pt-4 text-sm font-semibold text-white">Summary</p>
         <div className="divide-y divide-gray-400">
           <div className="flow-root px-4">
             <ul className="">
@@ -118,8 +95,13 @@ export default function Summary({
           </p>
         </Button>
       </p>
-      <Button className="create-position-btn w-full mt-2">
-        {!isApproved && 'Approve'} {currentFromToken.symbol}
+      <Button
+        disabled={isDisable}
+        loading={isLoading}
+        isSubmit
+        className="create-position-btn w-full mt-2"
+      >
+        {btn || <div className="dot__loader mb-5 m-auto" />}
       </Button>
     </div>
   );

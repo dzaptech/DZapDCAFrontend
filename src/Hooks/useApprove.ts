@@ -17,7 +17,6 @@ function useApprove() {
   const approve = async (contract: string, isRemove = false) => {
     try {
       const contractAddress = DCA_CONTRACTS[dcaVersion][chainId];
-
       const tokenContract = initializeERC20TokenContract({
         tokenAddress: contract,
         provider: readWriteProvider,

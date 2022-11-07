@@ -1,5 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { TrxType } from '../Constants/enums';
 import { TokenTypes } from '../Types';
 
 interface NativeCurrencyInfoType {
@@ -16,6 +17,7 @@ type Props = {
   editTokenContract: string;
   isCombineTokenList: boolean;
   tokenShimmerSize: number;
+  trxType: number;
 };
 
 const initialState: Props = {
@@ -31,6 +33,7 @@ const initialState: Props = {
   editTokenContract: '',
   isCombineTokenList: false,
   tokenShimmerSize: 0,
+  trxType: TrxType.unset,
 };
 
 export const common = createSlice({
@@ -67,6 +70,10 @@ export const common = createSlice({
       const currentState = state;
       currentState.tokenShimmerSize = action.payload;
     },
+    setTrxType: (state, action: PayloadAction<number>) => {
+      const currentState = state;
+      currentState.trxType = action.payload;
+    },
   },
 });
 
@@ -79,6 +86,7 @@ export const {
   setEditTokenContract,
   setIsCombineTokenList,
   setTokenShimmerSize,
+  setTrxType,
 } = common.actions;
 
 export default common.reducer;

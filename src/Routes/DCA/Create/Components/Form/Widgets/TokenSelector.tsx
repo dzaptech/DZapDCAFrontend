@@ -3,7 +3,10 @@ import downArrow from '../../../../../../Assets/Icons/dropdown-arrow.svg';
 import swap from '../../../../../../Assets/Icons/swap.svg';
 import Button from '../../../../../../Components/Button/Button';
 import { TokenTypes } from '../../../../../../Types';
-import { getAlternateTokenIcon } from '../../../../../../Utils/GeneralUtils';
+import {
+  getAlternateTokenIcon,
+  parseJsonString,
+} from '../../../../../../Utils/GeneralUtils';
 
 const { Option } = Select;
 
@@ -11,10 +14,16 @@ function TokenSelector({
   fromTokens,
   toTokens,
   swapToken,
+  toTokenContract,
+  fromTokenContract,
+  onChangeFromToken,
 }: {
   fromTokens: TokenTypes[];
   toTokens: TokenTypes[];
   swapToken: Function;
+  fromTokenContract: string;
+  toTokenContract: string;
+  onChangeFromToken: Function;
 }) {
   const alternateIcon = getAlternateTokenIcon();
   return (
@@ -26,12 +35,17 @@ function TokenSelector({
             placeholder="Select token"
             className="w-full create-position-select-box"
             showSearch
+            onChange={(item) => onChangeFromToken(parseJsonString(item))}
             suffixIcon={
               <img className="-rotate-180 right-0" src={downArrow} alt="" />
             }
           >
             {fromTokens.map((item: TokenTypes) => (
-              <Option value={JSON.stringify(item)} key={item.contract}>
+              <Option
+                disabled={item.contract === toTokenContract}
+                value={JSON.stringify(item)}
+                key={item.contract}
+              >
                 <div className="flex items-center">
                   <img
                     className="rounded-full h-6 w-6 mr-2"
@@ -66,7 +80,7 @@ function TokenSelector({
             {toTokens.map((item: TokenTypes) => (
               <Option
                 value={JSON.stringify(item)}
-                //   disabled={batchSellSelectedTokens[item.contract]}
+                disabled={item.contract === fromTokenContract}
                 key={item.contract}
               >
                 <div className="flex items-center">

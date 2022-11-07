@@ -34,7 +34,7 @@ function SupportedChainList({ position, shade }: SupportedChainListProps) {
           <div className="flex items-center dropdown_inner chain_list justify-between">
             <div className="flex items-center dropdown_text">
               {getChainInfoValue(currentChainId, 'name') ? (
-                <div className='flex'>
+                <div className="flex">
                   {isUnsupportedChain ? (
                     <p className="text-red-500 font-semibold">Invalid chain</p>
                   ) : (
@@ -80,10 +80,13 @@ function SupportedChainList({ position, shade }: SupportedChainListProps) {
           <div>
             {supportedChains.map((chainId) => (
               <Menu.Button
-                disabled={currentChainId === chainId}
+                disabled={
+                  isUnsupportedChain ? false : currentChainId === chainId
+                }
                 onClick={() => switchNetwork(chainId)}
                 className={`w-full dropdown_list_child ${
-                  currentChainId === chainId && 'cursor-not-allowed'
+                  (isUnsupportedChain ? false : currentChainId === chainId) &&
+                  'cursor-not-allowed'
                 }`}
                 key={chainId}
               >

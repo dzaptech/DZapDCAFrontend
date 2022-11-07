@@ -578,3 +578,9 @@ color: #F36969;
   .tooltip:hover .tooltiptext {
     visibility: visible;
   }
+
+  :disabled {
+    cursor: not-allowed;
+    background: #272d31 !important;
+    /* border-block: initial !important; */
+}

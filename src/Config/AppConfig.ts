@@ -13,4 +13,4 @@ export const dcaVersion = +parseFloat(
   process.env.REACT_APP_DE_ZAP_VERSION || '1',
 );
 
-export const defaultChainId = 56;
+export const defaultChainId = 137;

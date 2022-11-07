@@ -9,6 +9,48 @@ export const DCA_FORM_FIELD = {
   cycle: 'cycle',
 };
 
+export const DCA_FORM_DEFAULT_VALUES = {
+  fromToken: 'fromToken',
+  toToken: 'toToken',
+  amount: 1,
+  period: 30,
+  cycle: 'daily',
+};
+
+export const INVESTMENT_PERIOD = [
+  {
+    value: 5,
+    label: '5',
+  },
+  {
+    value: 15,
+    label: '15',
+  },
+  {
+    value: 30,
+    label: '30',
+  },
+];
+
+export const INVESTMENT_CYCLE: {
+  [key: string]: {
+    value: number;
+    label: string;
+  };
+} = {
+  daily: {
+    value: 1,
+    label: 'Daily',
+  },
+  weekly: {
+    value: 7,
+    label: 'Weekly',
+  },
+  monthly: {
+    value: 30,
+    label: 'Monthly',
+  },
+};
 export const SECONDARY_TOKEN: { [key: number]: TokenTypes } = {
   1: {
     contract: '0xdac17f958d2ee523a2206206994597c13d831ec7',

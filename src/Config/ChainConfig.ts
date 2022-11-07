@@ -80,7 +80,7 @@ interface ChainInfoInterface {
     '0x0000000000000000000000000000000000000000',
     eFormatNativeCurrency1
   ];
-  export const supportedChains: number[] = [137, 56, 1];
+  export const supportedChains: number[] = [137];
   export const alchemyRinkebyApi: string[] = [
     'rinkeby',
     '6Abto5co0LubIKUWva-uq2xpGdUKUc66',

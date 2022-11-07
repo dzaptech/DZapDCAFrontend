@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
+import dcaReducer from '../Logic/DCA/Create/Store';
 import commonReducer from './CommonReducer';
 
 export const store = configureStore({
   reducer: {
     common: commonReducer,
+    dca: dcaReducer,
   },
 });
 
