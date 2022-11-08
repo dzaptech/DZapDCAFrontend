@@ -15,7 +15,7 @@ import { getDefaultToken } from '../Utils/AppUtils';
 import { currencyFormatter } from '../Utils/GeneralUtils';
 import useMulticall from './useMulticall';
 
-function useBalance() {
+function useTokenBalance() {
   const { account, chainId } = useContext(AuthContext);
   const { multicall } = useMulticall();
   const dispatch = useDispatch();
@@ -84,4 +84,4 @@ function useBalance() {
     getAllWalletBalances,
   };
 }
-export default useBalance;
+export default useTokenBalance;

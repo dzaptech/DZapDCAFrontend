@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import approved from '../../../../../Assets/Icons/approved.svg';
 import explorer from '../../../../../Assets/Icons/explorer-green.svg';
 import twitter from '../../../../../Assets/Icons/twitter.svg';
 import ShareOnTwitter from '../../../../../Components/Misc/ShareOnTwitter';
+import AuthContext from '../../../../../Context/AuthContext';
+import { getHashExplorerLink } from '../../../../../Utils/ChainUtils';
 
-function Receipt() {
+function Receipt({ data, onFinish }: { data: any; onFinish: Function }) {
+  const { chainId } = useContext(AuthContext);
   return (
     <div className="w-full m-auto rounded-lg bg-gray850">
       <div className="w-full h-16 flex justify-center items-center border-b-gray700 border-b">
@@ -21,8 +24,8 @@ function Receipt() {
         <p className="text-gray50 text-center w-full mb-1">
           Your transaction was completed!
         </p>
-        <div className="w-full flex justify-center items-center mb-5">
-          <ShareOnTwitter url={'https://www.dzap.io/\n\n'} nofTokens={10}>
+        <div className="w-full flex justify-center items-center mb-12">
+          <ShareOnTwitter url={'https://www.dzap.io/\n\n'}>
             <div className="flex">
               <img
                 src={twitter}
@@ -36,7 +39,7 @@ function Receipt() {
         <button
           type="button"
           onClick={() => {
-            window.open('trxUrl');
+            window.open(getHashExplorerLink(data?.transactionHash, chainId));
           }}
           className="w-full mt-8 flex justify-start items-center gap-x-2"
         >
@@ -48,11 +51,11 @@ function Receipt() {
           />
         </button>
         <button
-          //   onClick={() => onFinish()}
+          onClick={() => onFinish()}
           type="button"
           className="h-12 mt-5 w-full bg-green300 rounded flex justify-center items-center text-black font-semibold"
         >
-          Start new trade
+          Finish
         </button>
       </div>
     </div>

@@ -6,6 +6,7 @@ import rejected from '../../../../Assets/Icons/rejected.png';
 import waiting from '../../../../Assets/Loader/pulse-ring.svg';
 import { STATUS } from '../../../../Constants/AppConstants';
 import { TrxType } from '../../../../Constants/enums';
+import useTokenBalance from '../../../../Hooks/useTokenBalance';
 import { RootState } from '../../../../Store';
 import { DCATrxState } from '../Constants/enums';
 import { setIsInsufficientGasFee, setTrxResponse, setTrxState } from '../Store';
@@ -15,6 +16,7 @@ function useTrx() {
   const { nativeCurrencyInfo, trxType } = useSelector(
     (state: RootState) => state.common,
   );
+  const { getAllWalletBalances } = useTokenBalance();
   const dispatch = useDispatch();
   const { balance: nativeBalance } = nativeCurrencyInfo;
   const isInsufficientGasFee = nativeBalance === 0;
@@ -42,7 +44,8 @@ function useTrx() {
     } else {
       headIcon = failed;
       head = 'Transaction Failed';
-      message = 'Position Creation Failed! Check "Transaction Details" while we investigate.';
+      message =
+        'Position Creation Failed! Check "Transaction Details" while we investigate.';
     }
   } else {
     if (trxType === TrxType.approving) {
@@ -62,6 +65,12 @@ function useTrx() {
     }
   };
 
+  const onFinish = () => {
+    getAllWalletBalances();
+    dispatch(setIsInsufficientGasFee(false));
+    dispatch(setTrxResponse(undefined));
+    dispatch(setTrxState(DCATrxState.unset));
+  };
   return {
     headIcon,
     onDismiss,
@@ -69,6 +78,8 @@ function useTrx() {
     message,
     status,
     closable,
+    data,
+    onFinish,
   };
 }
 export default useTrx;

@@ -5,7 +5,16 @@ import useTrx from '../../../../../Logic/DCA/Create/Hooks/useTrx';
 import Receipt from './Receipt';
 
 function DCATrxStateModal() {
-  const { headIcon, onDismiss, head, message, status, closable } = useTrx();
+  const {
+    headIcon,
+    onDismiss,
+    head,
+    message,
+    status,
+    closable,
+    data,
+    onFinish,
+  } = useTrx();
   return (
     <Modal
       centered
@@ -18,9 +27,9 @@ function DCATrxStateModal() {
       }}
       closable={closable}
     >
-      <div className="w-full h-340px m-auto rounded-lg bg-gray850 pb-12">
+      <div className="w-full h-340px m-auto rounded-lg bg-gray850">
         {status === STATUS.success ? (
-          <Receipt />
+          <Receipt data={data} onFinish={onFinish} />
         ) : (
           <div>
             <div className="w-full h-14 flex justify-center items-center border-b-gray700 border-b">

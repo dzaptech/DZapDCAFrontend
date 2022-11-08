@@ -32,6 +32,7 @@ function useCreateDCA() {
     useContext(AuthContext);
   const gasMultiplier: [number, number] = getGasMultiplier(APP.dca, chainId);
   const dispatch = useDispatch();
+
   const getParams = async (formValue: any) => {
     const amount =
       formValue[DCA_FORM_FIELD.amount] || DCA_FORM_DEFAULT_VALUES.amount;
@@ -45,7 +46,7 @@ function useCreateDCA() {
     const toToken: TokenTypes = parseJsonString(
       formValue[DCA_FORM_FIELD.toToken],
     );
-    const cycle = INVESTMENT_CYCLE[cycleKey].value;
+    const cycle = INVESTMENT_CYCLE[cycleKey].value * 86400;
     const contractAddress = DCA_CONTRACTS[dcaVersion][chainId];
     const abiPath = DCA_CONTRACTS[dcaVersion].abi;
     const params = [
@@ -57,7 +58,8 @@ function useCreateDCA() {
       cycle,
     ];
     let hasAllowance = true;
-    if (!nativeCurrencyAddresses.includes(fromToken.contract)) {
+    const isNative = nativeCurrencyAddresses.includes(fromToken.contract);
+    if (!isNative) {
       const { allowance } = await getAllowance(fromToken.contract);
       hasAllowance = allowance?.gt('0') || false;
     }
@@ -66,32 +68,41 @@ function useCreateDCA() {
       abiPath,
       provider: readWriteProvider,
     });
-
     return {
       params,
       contract,
       hasAllowance,
       fromTokenContract: fromToken.contract,
+      isNative,
     };
+  };
+
+  const callAdminFunc = async (contract: any) => {
+    const tokens = ['0x0000000000000000000000000000000000000000'];
+    const estimateGas = await contract.estimateGas.addAllowedTokens(tokens);
+    await contract.addAllowedTokens(tokens, {
+      gasLimit: estimateGas.mul(gasMultiplier[0]).div(gasMultiplier[1]),
+    });
   };
 
   const createPosition = async (contract: any, params: any) => {
     try {
-      console.log('in cre', params);
       dispatch(setTrxType(TrxType.blockchainWrite));
-      const estimateGas = await contract.estimateGas.createPosition(...params, {
-        value: '0x',
-      });
-      console.log('estimateGas', estimateGas);
-
-      const result = await contract.createPosition(...params, {
-        gasLimit: estimateGas.mul(gasMultiplier[0]).div(gasMultiplier[1]),
-      });
-      const res = await result.wait();
-      console.log(res);
+      if (true) {
+        const estimateGas = await contract.estimateGas.createPosition(
+          ...params,
+        );
+        const result = await contract.createPosition(...params, {
+          gasLimit: estimateGas.mul(gasMultiplier[0]).div(gasMultiplier[1]),
+        });
+        const res = await result.wait();
+        console.log(res);
+        
+        dispatch(setTrxResponse({ status: STATUS.success, data: res }));
+      } else {
+        await callAdminFunc(contract);
+      }
     } catch (error: any) {
-      console.log(error);
-
       dispatch(setTrxResponse({ status: STATUS.error, data: error }));
       errorNotification('Error', error.message);
     }
@@ -110,9 +121,7 @@ function useCreateDCA() {
           dispatch(setTrxType(TrxType.approving));
           const res = await approve(fromTokenContract);
           if (res.status === STATUS.success) {
-            dispatch(setTrxResponse(res));
-
-            // createPosition(contract, params);
+            createPosition(contract, params);
           } else {
             dispatch(setTrxResponse(res));
           }

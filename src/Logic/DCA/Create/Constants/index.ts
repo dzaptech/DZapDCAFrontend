@@ -12,7 +12,7 @@ export const DCA_FORM_FIELD = {
 export const DCA_FORM_DEFAULT_VALUES = {
   fromToken: 'fromToken',
   toToken: 'toToken',
-  amount: 1,
+  amount: 0.1,
   period: 30,
   cycle: 'daily',
 };

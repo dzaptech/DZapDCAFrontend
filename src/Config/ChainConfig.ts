@@ -85,6 +85,7 @@ interface ChainInfoInterface {
     'rinkeby',
     '6Abto5co0LubIKUWva-uq2xpGdUKUc66',
   ];
+  
   export const alchemyMainnetApi: string[] = [
     'homestead',
     'nfrnWAqN2Frs4UJ_hVhF3xiz_eo9fkKd',
