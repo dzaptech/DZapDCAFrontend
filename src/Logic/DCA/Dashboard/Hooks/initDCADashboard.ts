@@ -1,94 +1,85 @@
-import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { dcaVersion, defaultChainId } from '../../../../Config/AppConfig';
-import { DCA_CONTRACTS } from '../../../../Constants/ContractHistory';
-import {
-  getInterface,
-  initializeContract,
-  initializeReadOnlyProvider,
-} from '../../../../Utils/ContractUtils';
+import { useContext, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { STATUS } from '../../../../Constants/AppConstants';
+import AuthContext from '../../../../Context/AuthContext';
+import { RootState } from '../../../../Store';
+import { apiGetAllTokens } from '../../../../Store/Action';
+import { setTokenList } from '../../../../Store/CommonReducer';
+import { TokenTypes } from '../../../../Types';
+import { getPastEvent } from '../../../../Utils/ContractUtils';
 
-import { EVENT_CREATE_POSITION } from '../Constants';
 import { setIsLoading, setPositions } from '../Store';
+import { getPositionEventParams, parsePositionEventData } from '../Utils';
 
 function initDCADashboard() {
+  const { account } = useContext(AuthContext);
+  const { chainFilter } = useSelector((state: RootState) => state.dcaDashboard);
+  const { tokenList } = useSelector((state: RootState) => state.common);
   const dispatch = useDispatch();
-  const parseEventData = (result: any, abiPath: string, chainId: number) => {
-    const abiInterface = getInterface(abiPath);
-    const output = result.map((item: any) => {
-      const decodedInput = abiInterface.parseLog(item);
-      const {
-        finalSwap,
-        fromToken,
-        owner,
-        positionId,
-        rate,
-        startingSwap,
-        swapInterval,
-        toToken,
-      } = decodedInput.args;
-      return {
-        finalSwap,
-        fromToken,
-        owner,
-        positionId,
-        rate,
-        startingSwap,
-        swapInterval,
-        toToken,
+  const [parsedPositions, setParsedPositions] = useState([]);
+  const [positionsTokenList, setPositionsTokenList] = useState<string[]>([]);
+
+  const getPositions = async () => {
+    try {
+      const chainId = chainFilter[0];
+      const { contract, provider, data, abiPath } = getPositionEventParams(
         chainId,
-      };
-    });
-    return output;
-  };
-
-  const getPastEvent = async (contract: any, provider: any, data: any) => {
-    try {
-      const { blocks, filterParams, event } = data;
-      let filter = contract.filters[event](...filterParams);
-      filter = {
-        ...filter,
-        ...blocks,
-      };
-      const res = await provider.getLogs(filter);
-      return res;
-    } catch (error) {
-      console.log('getPastEvent', error);
-      return error;
-    }
-  };
-
-  const getParams = (chainId: number) => {
-    const abiPath = DCA_CONTRACTS[dcaVersion].abi;
-    const contractAddress = DCA_CONTRACTS[dcaVersion][chainId];
-    const provider = initializeReadOnlyProvider(chainId);
-    const contract = initializeContract({ contractAddress, abiPath, provider });
-    const blocks = { fromBlock: 30631655, toBlock: 'latest' };
-    const event = EVENT_CREATE_POSITION;
-    const filterParams = [null, null, null, null];
-    const data = { blocks, filterParams, event };
-    return {
-      data,
-      contract,
-      provider,
-      abiPath,
-    };
-  };
-  const getPositions = async (chainId: number) => {
-    try {
-      const { contract, provider, data, abiPath } = getParams(chainId);
+        account || '',
+      );
       const result = await getPastEvent(contract, provider, data);
-      const parseData = parseEventData(result, abiPath, chainId);
-      dispatch(setPositions(parseData));
-      dispatch(setIsLoading(false));
+      const parsedData = parsePositionEventData(result, abiPath, chainId);
+      setParsedPositions(parsedData.data);
+      setPositionsTokenList(parsedData.tokenAddresses);
     } catch (error) {
       dispatch(setIsLoading(false));
       console.log(error);
     }
   };
+
   useEffect(() => {
-    getPositions(defaultChainId);
-  }, []);
+    apiGetAllTokens({ chainId: chainFilter[0] }).then((res) => {
+      if (res.status === STATUS.success) {
+        dispatch(setTokenList(res.data));
+      } else {
+        dispatch(setTokenList([]));
+      }
+    });
+  }, [chainFilter]);
+
+  useEffect(() => {
+    if (account) {
+      getPositions();
+    }
+  }, [chainFilter, account]);
+
+  //   const mapParsedData = () => {
+  //     const positions = parsedPositions.map((item) => {
+  //         const
+  //     });
+  //   };
+
+  useEffect(() => {
+    if (parsedPositions.length > 0 && tokenList.length > 0) {
+      const filterredTokenInfo = tokenList.filter((item: TokenTypes) =>
+        positionsTokenList.includes(item.contract),
+      );
+      const positions = parsedPositions.map((position: any) => {
+        const fromToken = filterredTokenInfo.find(
+          (item) => item.contract === position.fromToken,
+        );
+        const toToken = filterredTokenInfo.find(
+          (item) => item.contract === position.toToken,
+        );
+        return {
+          ...position,
+          fromToken,
+          toToken,
+        };
+      });
+      dispatch(setPositions(positions));
+      dispatch(setIsLoading(false));
+    }
+  }, [parsedPositions, tokenList]);
 }
 
 export default initDCADashboard;

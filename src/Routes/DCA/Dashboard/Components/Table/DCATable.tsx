@@ -3,6 +3,8 @@ import useDCATable from '../../../../../Logic/DCA/Dashboard/Hooks/useDCATable';
 
 function DCATable() {
   const { columns, positions, isLoading } = useDCATable();
+  console.log(positions);
+  
   return (
     <Table
       className="trx-table"

@@ -6,4 +6,4 @@ export const DCA_FORM_FIELD = {
   cycle: 'cycle',
 };
 
-export const EVENT_CREATE_POSITION = 'Deposited';
+export const EVENT_CREATE_POSITION = 'Created';

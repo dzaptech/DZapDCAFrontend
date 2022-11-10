@@ -6,7 +6,7 @@ export interface DCAContract {
 }
 export const DCA_CONTRACTS: DCAContract = {
   1: {
-    137: '0x3EB3c44004f874b0594c55E785ED55b192FD26E6',
+    137: '0x42c21cc2CEB757B0c675966c7801F153a4f405f3',
     abi: 'DCA/v1/DZapDCA.json',
   },
 };

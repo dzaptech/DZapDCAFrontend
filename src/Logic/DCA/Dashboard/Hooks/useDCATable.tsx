@@ -3,9 +3,8 @@ import { useSelector } from 'react-redux';
 import graph from '../../../../Assets/Icons/graph.svg';
 import timeline from '../../../../Assets/Icons/timeline.svg';
 import Button from '../../../../Components/Button/Button';
-import { APP } from '../../../../Constants/AppConstants';
 import { RootState } from '../../../../Store';
-import { getDefaultToken } from '../../../../Utils/AppUtils';
+import { TokenTypes } from '../../../../Types';
 import { getChainInfoValue } from '../../../../Utils/ChainUtils';
 import { getAlternateTokenIcon } from '../../../../Utils/GeneralUtils';
 
@@ -20,41 +19,39 @@ function useDCATable() {
     address: string;
     tags: string[];
   }
-
-  const defualtToken = getDefaultToken(APP.dca, 56);
   const alternateIcon = getAlternateTokenIcon();
 
   const columns: ColumnsType<DataType> = [
     {
       title: 'I/P',
-      dataIndex: 'input',
-      key: 'input',
-      render: () => (
+      dataIndex: 'fromToken',
+      key: 'fromToken',
+      render: (fromToken: TokenTypes) => (
         <div className="flex items-center">
           <img
             className="rounded-full h-6 w-6 mr-2"
-            src={defualtToken.logo}
+            src={fromToken.logo}
             alt={alternateIcon}
           />
           <p className="font-medium text-sm text-white mullish">
-            {defualtToken.symbol}
+            {fromToken.symbol}
           </p>
         </div>
       ),
     },
     {
       title: 'O/P',
-      dataIndex: 'ouput',
-      key: 'ouput',
-      render: () => (
+      dataIndex: 'toToken',
+      key: 'toToken',
+      render: (toToken: TokenTypes) => (
         <div className="flex items-center">
           <img
             className="rounded-full h-6 w-6 mr-2"
-            src={defualtToken.logo}
+            src={toToken.logo}
             alt={alternateIcon}
           />
           <p className="font-medium text-sm text-white mullish">
-            {defualtToken.symbol}
+            {toToken.symbol}
           </p>
         </div>
       ),

@@ -64,3 +64,19 @@ export const getInterface = (abiPath: string) => {
   const { abi } = require(`../Artifacts/${abiPath}`);
   return new ethers.utils.Interface(abi);
 };
+
+export const getPastEvent = async (contract: any, provider: any, data: any) => {
+  try {
+    const { blocks, filterParams, event } = data;
+    let filter = contract.filters[event](...filterParams);
+    filter = {
+      ...filter,
+      ...blocks,
+    };
+    const res = await provider.getLogs(filter);
+    return res;
+  } catch (error) {
+    console.log('getPastEvent', error);
+    return error;
+  }
+};

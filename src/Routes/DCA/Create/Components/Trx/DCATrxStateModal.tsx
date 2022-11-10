@@ -31,7 +31,7 @@ function DCATrxStateModal() {
         {status === STATUS.success ? (
           <Receipt data={data} onFinish={onFinish} />
         ) : (
-          <div>
+          <div className="pb-12">
             <div className="w-full h-14 flex justify-center items-center border-b-gray700 border-b">
               <p className="text-white">{closable ? 'ERROR' : head}</p>
             </div>
