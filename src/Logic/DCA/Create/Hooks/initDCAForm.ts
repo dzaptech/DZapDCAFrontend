@@ -22,31 +22,61 @@ function initDCAForm() {
   const chainId = currentChainId || defaultChainId;
   const defualtFromToken = getDefaultToken(APP.dca, chainId);
   const defualtToToken = SECONDARY_TOKEN[chainId];
-  const { walletTokenList, tokenList } = useSelector(
+  const [fromTokens, setFromTokens] = useState<TokenTypes[]>([
+    defualtFromToken,
+  ]);
+  const { walletTokenList, tokenList: toTokens } = useSelector(
     (state: RootState) => state.common,
   );
   const { trxState } = useSelector((state: RootState) => state.dca);
 
-  const fromTokens =
-    walletTokenList.length > 0 ? walletTokenList : [defualtFromToken];
-  const toTokens = tokenList.length > 0 ? tokenList : [defualtToToken];
-
-  const from =
-    fromTokens.find((item) => item.contract === defualtFromToken.contract) ||
-    null;
-  const defaultSelect = {
-    from,
-    to:
-      toTokens.find((item) => item.contract === defualtToToken.contract) ||
-      null,
+  const mapBalance = () => {
+    const mappedData = toTokens.map((item) => {
+      const balance =
+        walletTokenList.find(
+          (walletItem) =>
+            walletItem.contract.toLowerCase() === item.contract.toLowerCase(),
+        )?.balance || '0';
+      return {
+        ...item,
+        balance,
+      };
+    });
+    return mappedData;
   };
 
   useEffect(() => {
-    if (from) {
-      setFormValues(form, DCA_FORM_FIELD.fromToken, JSON.stringify(from));
-      setHasAllowance(BigNumber.from(from.allowance || 0).gt('0'));
+    if (toTokens.length > 0) {
+      setFromTokens(mapBalance());
     }
-  }, [from]);
+  }, [toTokens, walletTokenList]);
+
+  useEffect(() => {
+    if (fromTokens.length > 0) {
+      const selectFrom = fromTokens.find(
+        (item) => item.contract === defualtFromToken.contract,
+      );
+      if (selectFrom) {
+        setFormValues(
+          form,
+          DCA_FORM_FIELD.fromToken,
+          JSON.stringify(selectFrom),
+        );
+        setHasAllowance(BigNumber.from(selectFrom.allowance || 0).gt('0'));
+      }
+    }
+  }, [fromTokens]);
+  useEffect(() => {
+    if (toTokens.length > 0) {
+      const selectTo =
+        toTokens.find((item) => item.contract === defualtToToken.contract) ||
+        null;
+
+      if (selectTo) {
+        setFormValues(form, DCA_FORM_FIELD.toToken, JSON.stringify(selectTo));
+      }
+    }
+  }, [toTokens]);
 
   const currentFromToken =
     parseJsonString(Form.useWatch(DCA_FORM_FIELD.fromToken, form)) ||
@@ -91,9 +121,12 @@ function initDCAForm() {
 
   return {
     fromTokens,
-    toTokens,
+    toTokens: toTokens.length > 0 ? toTokens : [defualtToToken],
     form,
-    defaultSelect,
+    defaultSelect: {
+      from: defualtFromToken,
+      to: defualtToToken,
+    },
     currentFromToken,
     swapToken,
     currentToToken,

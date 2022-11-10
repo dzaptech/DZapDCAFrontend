@@ -16,8 +16,8 @@ function CreatePositionForm() {
   const {
     fromTokens,
     toTokens,
-    defaultSelect,
     form,
+    defaultSelect,
     currentFromToken,
     currentToToken,
     swapToken,
@@ -34,12 +34,8 @@ function CreatePositionForm() {
       form={form}
       onFinish={onSubmit}
       initialValues={{
-        [DCA_FORM_FIELD.fromToken]: defaultSelect.from
-          ? JSON.stringify(defaultSelect.from)
-          : null,
-        [DCA_FORM_FIELD.toToken]: defaultSelect.to
-          ? JSON.stringify(defaultSelect.to)
-          : null,
+        [DCA_FORM_FIELD.fromToken]: JSON.stringify(defaultSelect.from),
+        [DCA_FORM_FIELD.toToken]: JSON.stringify(defaultSelect.to),
         [DCA_FORM_FIELD.period]: DCA_FORM_DEFAULT_VALUES.period,
         cycle: DCA_FORM_DEFAULT_VALUES.cycle,
       }}

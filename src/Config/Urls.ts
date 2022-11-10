@@ -7,6 +7,6 @@ const urls = {
   getAllBalanceOf: `${baseApiUrl}${token}balance-of`,
   getTokenDetails: `${baseApiUrl}${token}get-details`,
   getTokensPrice: `${baseApiUrl}${token}get-price`,
-  getAllTokens: `${baseApiUrl}${token}get-all`,
+  getAllTokens: `${baseApiUrl}dca/${token}get-all`,
 };
 export default urls;
