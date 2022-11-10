@@ -1,11 +1,16 @@
 import { Form, Modal } from 'antd';
+import { useContext, useEffect, useState } from 'react';
 import '../../../../../../Assets/Css/DCA/Create.scss';
 import { nativeCurrencyAddresses } from '../../../../../../Config/ChainConfig';
+import { STATUS } from '../../../../../../Constants/AppConstants';
+import AuthContext from '../../../../../../Context/AuthContext';
+import useTokenInfo from '../../../../../../Hooks/useTokenInfo';
 import {
   DCA_FORM_DEFAULT_VALUES,
   DCA_FORM_FIELD,
 } from '../../../../../../Logic/DCA/Dashboard/Constants';
 import { parseUnitsInWei } from '../../../../../../Utils/ContractUtils';
+import { currencyFormatter } from '../../../../../../Utils/GeneralUtils';
 import InvestmentAmount from './Widgets/InvestmentAmount';
 import InvestmentPeriod from './Widgets/InvestmentPeriod';
 import Summary from './Widgets/Summary';
@@ -20,6 +25,26 @@ function ModifyPosition({
   modifyPosition: Function;
   setPositionInfo: Function;
 }) {
+  const { getTokenInfo } = useTokenInfo();
+  const { fromToken, toToken } = positionInfo;
+  const { account } = useContext(AuthContext);
+
+  const [tokenBalance, setTokenBalance] = useState(0);
+  const getBalance = async () => {
+    const resposne = await getTokenInfo(
+      fromToken.contract,
+      ['balanceOf'],
+      [[account]],
+    );
+    if (resposne.status === STATUS.success) {
+      setTokenBalance(
+        +currencyFormatter(resposne.data?.balance || 0, fromToken.decimals),
+      );
+    }
+  };
+  useEffect(() => {
+    getBalance();
+  }, []);
   const [form] = Form.useForm();
   const cycleKey = Form.useWatch(DCA_FORM_FIELD.cycle, form) || 'daily';
   const amount =
@@ -28,10 +53,8 @@ function ModifyPosition({
   const period =
     +Form.useWatch(DCA_FORM_FIELD.period, form) ||
     DCA_FORM_DEFAULT_VALUES.period;
-
-  const isDisabled = false;
-  const btn = 'MODIFY';
-  const { fromToken, toToken } = positionInfo;
+  const isInsufficientFund = tokenBalance < amount;
+  const btn = isInsufficientFund ? 'INSUFFICIENT FUNDS' : 'MODIFY';
 
   return (
     <Modal
@@ -70,13 +93,14 @@ function ModifyPosition({
               <InvestmentAmount
                 form={form}
                 currentFromToken={positionInfo.fromToken}
+                tokenBalance={tokenBalance}
               />
               <InvestmentPeriod cycleKey={cycleKey} form={form} />
             </div>
             <Summary
               positionInfo={positionInfo}
               btn={btn}
-              isDisabled={isDisabled}
+              isDisabled={isInsufficientFund}
               period={period}
               amount={amount}
             />

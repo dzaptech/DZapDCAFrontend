@@ -1,4 +1,5 @@
 import { Form, Input } from 'antd';
+import wallet from '../../../../../../../Assets/Icons/wallet.svg';
 import Button from '../../../../../../../Components/Button/Button';
 import { setFormValues } from '../../../../../../../Logic/DCA/Create/Utils/FormUtils';
 import {
@@ -7,23 +8,19 @@ import {
 } from '../../../../../../../Logic/DCA/Dashboard/Constants';
 import { TokenTypes } from '../../../../../../../Types';
 import {
-  currencyFormatter,
   getAlternateTokenIcon,
   truncateDecimals,
 } from '../../../../../../../Utils/GeneralUtils';
-import wallet from '../../../../../../../Assets/Icons/wallet.svg';
 
 function InvestmentAmount({
   currentFromToken,
   form,
+  tokenBalance,
 }: {
   currentFromToken: TokenTypes;
   form: any;
+  tokenBalance: number;
 }) {
-  const balance = +currencyFormatter(
-    currentFromToken.balance,
-    currentFromToken.decimals,
-  );
   return (
     <div>
       <p className="mb-1 font-semibold text-sm text-white mullish">
@@ -42,7 +39,7 @@ function InvestmentAmount({
           }
           suffix={
             <Button
-              onClick={() => setFormValues(form, 'amount', balance)}
+              onClick={() => setFormValues(form, 'amount', tokenBalance)}
               className="wallet-balance px-4 flex"
             >
               <img
@@ -50,7 +47,7 @@ function InvestmentAmount({
                 src={wallet}
                 alt={getAlternateTokenIcon()}
               />
-              {truncateDecimals(balance)} {currentFromToken.symbol}
+              {truncateDecimals(tokenBalance)} {currentFromToken.symbol}
             </Button>
           }
           className="w-full create-position-input px-3"
