@@ -63,3 +63,14 @@ export const parsePositionEventData = (
     tokenAddresses,
   };
 };
+
+export const formatSwapInterval = (seconds: number) => {
+  const hour = Math.floor(seconds / 3600);
+  let interval = 'Monthly';
+  if (hour === 24) {
+    interval = 'Daily';
+  } else if (hour === 168) {
+    interval = 'Weekly';
+  }
+  return interval;
+};

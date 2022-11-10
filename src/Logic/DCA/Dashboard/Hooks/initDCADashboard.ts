@@ -52,12 +52,6 @@ function initDCADashboard() {
     }
   }, [chainFilter, account]);
 
-  //   const mapParsedData = () => {
-  //     const positions = parsedPositions.map((item) => {
-  //         const
-  //     });
-  //   };
-
   useEffect(() => {
     if (parsedPositions.length > 0 && tokenList.length > 0) {
       const filterredTokenInfo = tokenList.filter((item: TokenTypes) =>

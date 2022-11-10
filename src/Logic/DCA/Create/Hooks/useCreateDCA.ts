@@ -96,8 +96,6 @@ function useCreateDCA() {
           gasLimit: estimateGas.mul(gasMultiplier[0]).div(gasMultiplier[1]),
         });
         const res = await result.wait();
-        console.log(res);
-        
         dispatch(setTrxResponse({ status: STATUS.success, data: res }));
       } else {
         await callAdminFunc(contract);

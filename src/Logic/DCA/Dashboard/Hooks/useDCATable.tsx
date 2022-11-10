@@ -1,24 +1,35 @@
 import { ColumnsType } from 'antd/lib/table';
+import { useContext } from 'react';
 import { useSelector } from 'react-redux';
 import graph from '../../../../Assets/Icons/graph.svg';
 import timeline from '../../../../Assets/Icons/timeline.svg';
 import Button from '../../../../Components/Button/Button';
+import { nativeCurrencyAddresses } from '../../../../Config/ChainConfig';
+import AuthContext from '../../../../Context/AuthContext';
 import { RootState } from '../../../../Store';
 import { TokenTypes } from '../../../../Types';
 import { getChainInfoValue } from '../../../../Utils/ChainUtils';
 import { getAlternateTokenIcon } from '../../../../Utils/GeneralUtils';
+import { formatSwapInterval } from '../Utils';
+import useActions from './useActions';
+
+interface DataType {
+  key: string;
+  name: string;
+  age: number;
+  address: string;
+  tags: string[];
+}
 
 function useDCATable() {
   const { positions, isLoading } = useSelector(
     (state: RootState) => state.dcaDashboard,
   );
-  interface DataType {
-    key: string;
-    name: string;
-    age: number;
-    address: string;
-    tags: string[];
-  }
+  const { account } = useContext(AuthContext);
+
+  const { trxState } = useSelector((state: RootState) => state.dca);
+
+  const { terminate, modifyPosition, retry } = useActions();
   const alternateIcon = getAlternateTokenIcon();
 
   const columns: ColumnsType<DataType> = [
@@ -62,7 +73,7 @@ function useDCATable() {
       key: 'status',
       render: () => (
         <span className="inline-flex rounded-full bg-green-300 px-2 text-xs font-semibold leading-5 text-green-800">
-          Finished
+          Running
         </span>
       ),
     },
@@ -79,10 +90,10 @@ function useDCATable() {
       ),
     },
     {
-      title: 'Swapped',
-      key: 'swapped',
-      dataIndex: 'swapped',
-      render: () => <>0.0000975338 LINK</>,
+      title: 'Interval',
+      key: 'swapInterval',
+      dataIndex: 'swapInterval',
+      render: (value) => <>{formatSwapInterval(value.toNumber())}</>,
     },
     {
       title: 'Remaining',
@@ -115,10 +126,34 @@ function useDCATable() {
       render: () => <img src={timeline} alt="" />,
     },
     {
-      title: '',
+      title: 'Action',
       key: 'action',
-      render: () => (
-        <Button className="btn-table-action w-full mt-2">REUSE</Button>
+      dataIndex: 'action',
+      render: (_, record: any) => (
+        <div>
+          <Button
+            onClick={() => {
+              modifyPosition([]);
+            }}
+            className="btn-table-action w-32 mt-2"
+          >
+            Modify
+          </Button>
+          <Button
+            onClick={() => {
+              const terminateParams = [
+                record.positionId,
+                account,
+                account,
+                nativeCurrencyAddresses.includes(record.fromToken.contract),
+              ];
+              terminate(terminateParams);
+            }}
+            className="btn-table-action w-32 ml-2 mt-2"
+          >
+            Terminate
+          </Button>
+        </div>
       ),
     },
   ];
@@ -126,6 +161,8 @@ function useDCATable() {
     columns,
     positions,
     isLoading,
+    trxState,
+    retry,
   };
 }
 

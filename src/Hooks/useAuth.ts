@@ -6,9 +6,14 @@ import { useDispatch } from 'react-redux';
 import Web3Modal from 'web3modal';
 import { defaultChainId } from '../Config/AppConfig';
 import { JSON_RPC_PROVIDER } from '../Config/ChainConfig';
-import { setIsUnsupportedChain, setTokenList } from '../Store/CommonReducer';
-import { isSupportedChain } from '../Utils/ChainUtils';
+import {
+  setIsUnsupportedChain,
+  setNativeCurrencyInfo,
+  setTokenList,
+} from '../Store/CommonReducer';
+import { getChainInfoValue, isSupportedChain } from '../Utils/ChainUtils';
 import { initializeReadOnlyProvider } from '../Utils/ContractUtils';
+import { abbreviateCurrency } from '../Utils/GeneralUtils';
 
 const providerOptions = {
   walletconnect: {
@@ -61,6 +66,22 @@ function useAuth() {
     localStorage.removeItem('walletConnector');
     localStorage.removeItem('account');
   };
+
+  const getNativeBalance = useCallback(
+    async (ethersProvider: any, chainId: number, account: string) => {
+      const nativeBalance = await ethersProvider.getBalance(account);
+      const decimals = +(getChainInfoValue(chainId, 'decimals') || 18);
+      dispatch(
+        setNativeCurrencyInfo({
+          balance: abbreviateCurrency(nativeBalance, decimals),
+          decimals,
+          quote_rate: 1,
+        }),
+      );
+    },
+    [],
+  );
+
   const initialize = useCallback(async (provider: any) => {
     resetData();
     const ethersProvider: providers.Web3Provider = new providers.Web3Provider(
@@ -79,7 +100,7 @@ function useAuth() {
       setChainId(defaultChainId);
       dispatch(setIsUnsupportedChain(true));
     }
-    // getNativeBalance(ethersProvider, chainId, account[0]);
+    getNativeBalance(ethersProvider, chainId, account[0]);
     setReadOnlyProvider(initializeReadOnlyProvider(chainId));
     localStorage.setItem('account', account[0]);
     localStorage.setItem('chainId', chainId.toString());

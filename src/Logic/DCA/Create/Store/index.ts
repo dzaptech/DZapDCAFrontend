@@ -12,8 +12,8 @@ const initialState: Props = {
   isInsufficientGasFee: false,
 };
 
-export const multiSwap = createSlice({
-  name: 'multiSwap',
+export const dca = createSlice({
+  name: 'dca',
   initialState,
   reducers: {
     setTrxResponse: (state, action: PayloadAction<any>) => {
@@ -32,6 +32,6 @@ export const multiSwap = createSlice({
 });
 
 export const { setTrxResponse, setIsInsufficientGasFee, setTrxState } =
-  multiSwap.actions;
+  dca.actions;
 
-export default multiSwap.reducer;
+export default dca.reducer;
