@@ -32,13 +32,16 @@ function useActions() {
       provider: readWriteProvider,
     });
   };
+  const initTrxData = (params: any[], type: number) => {
+    dispatch(setActionParams(params));
+    dispatch(setTrxResponse(undefined));
+    dispatch(setActionType(type));
+    dispatch(setTrxType(TrxType.blockchainWrite));
+    dispatch(setTrxState(DCATrxState.wait));
+  };
   const terminate = async (params: any[]) => {
     try {
-      dispatch(setActionParams(params));
-      dispatch(setTrxResponse(undefined));
-      dispatch(setActionType(ActionType.terminate));
-      dispatch(setTrxType(TrxType.blockchainWrite));
-      dispatch(setTrxState(DCATrxState.wait));
+      initTrxData(params, ActionType.terminate);
       const contract = getContract();
       const estimateGas = await contract.estimateGas.terminate(...params);
       const result = await contract.terminate(...params, {
@@ -53,11 +56,10 @@ function useActions() {
   };
   const modifyPosition = async (params: any[]) => {
     try {
-      dispatch(setTrxType(TrxType.blockchainWrite));
-      dispatch(setTrxState(DCATrxState.wait));
+      initTrxData(params, ActionType.modify);
       const contract = getContract();
-      const estimateGas = await contract.estimateGas.terminate(...params);
-      const result = await contract.terminate(...params, {
+      const estimateGas = await contract.estimateGas.modifyPosition(...params);
+      const result = await contract.modifyPosition(...params, {
         gasLimit: estimateGas.mul(gasMultiplier[0]).div(gasMultiplier[1]),
       });
       const res = await result.wait();

@@ -1,15 +1,18 @@
 import { Table } from 'antd';
 import { DCATrxState } from '../../../../../Logic/DCA/Create/Constants/enums';
 import useDCATable from '../../../../../Logic/DCA/Dashboard/Hooks/useDCATable';
+import ModifyPosition from '../Actions/Modify/ModifyPosition';
 import DashboardTrxStateModal from '../Trx/DashboardTrxStateModal';
 
 function DCATable() {
-  const { columns, positions, isLoading, trxState, retry } = useDCATable();
+  const { columns, positions, isLoading, trxState, retry, positionInfo, modifyPosition, setPositionInfo } =
+    useDCATable();
   return (
     <div>
       {trxState !== DCATrxState.unset && (
         <DashboardTrxStateModal retry={retry} />
       )}
+      {!!positionInfo && <ModifyPosition setPositionInfo={setPositionInfo} positionInfo={positionInfo} modifyPosition={modifyPosition} />}
       <Table
         className="trx-table"
         columns={columns}

@@ -42,6 +42,7 @@ function useSummary({
     currentFromToken.balance,
     currentFromToken.decimals,
   );
+  const cycle = INVESTMENT_CYCLE[cycleKey].value;
   const isInsufficientFund = balance < DCA_FORM_DEFAULT_VALUES.amount;
   const summary = [
     {
@@ -57,7 +58,7 @@ function useSummary({
     {
       id: 3,
       key: 'Investment Period',
-      value: `${period} Days`,
+      value: `${period * cycle} Days`,
     },
     {
       id: 4,

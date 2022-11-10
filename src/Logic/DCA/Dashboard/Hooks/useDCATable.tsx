@@ -1,5 +1,5 @@
 import { ColumnsType } from 'antd/lib/table';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { useSelector } from 'react-redux';
 import graph from '../../../../Assets/Icons/graph.svg';
 import timeline from '../../../../Assets/Icons/timeline.svg';
@@ -25,10 +25,9 @@ function useDCATable() {
   const { positions, isLoading } = useSelector(
     (state: RootState) => state.dcaDashboard,
   );
+  const [positionInfo, setPositionInfo] = useState(false);
   const { account } = useContext(AuthContext);
-
   const { trxState } = useSelector((state: RootState) => state.dca);
-
   const { terminate, modifyPosition, retry } = useActions();
   const alternateIcon = getAlternateTokenIcon();
 
@@ -133,7 +132,7 @@ function useDCATable() {
         <div>
           <Button
             onClick={() => {
-              modifyPosition([]);
+              setPositionInfo(record);
             }}
             className="btn-table-action w-32 mt-2"
           >
@@ -163,6 +162,9 @@ function useDCATable() {
     isLoading,
     trxState,
     retry,
+    positionInfo,
+    modifyPosition,
+    setPositionInfo,
   };
 }
 

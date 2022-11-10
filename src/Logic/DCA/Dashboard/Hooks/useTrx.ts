@@ -62,7 +62,6 @@ function useTrx() {
       dispatch(setTrxState(DCATrxState.unset));
     }
   };
-
   const onFinish = () => {
     dispatch(setTrxResponse(undefined));
     dispatch(setTrxState(DCATrxState.unset));
