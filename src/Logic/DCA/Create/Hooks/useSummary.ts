@@ -43,7 +43,8 @@ function useSummary({
     currentFromToken.decimals,
   );
   const cycle = INVESTMENT_CYCLE[cycleKey].value;
-  const isInsufficientFund = balance < DCA_FORM_DEFAULT_VALUES.amount;
+  const isInsufficientFund =
+    balance < DCA_FORM_DEFAULT_VALUES.amount || balance < amount;
   const summary = [
     {
       id: 1,
@@ -73,7 +74,7 @@ function useSummary({
     if (isUnsupportedChain !== undefined && isUnsupportedChain) {
       btn = 'Switch Network';
     } else if (isInsufficientFund) {
-      btn = 'Insufficient Funds';
+      btn = 'INSUFFICIENT FUNDS';
     } else {
       if (!hasAllowance) {
         btn = `Approve ${symbol}`;
