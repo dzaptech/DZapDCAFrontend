@@ -521,25 +521,26 @@ button.dropdown:focus-visible,
     width: auto;
 }
 
-.wrapper-progress{
+.wrapper-progress {
     cursor: progress;
 }
+
 .modal_main_blur_bg {
     backdrop-filter: blur(4px);
     background-color: rgba(255, 255, 255, 0.5);
 }
 
 .error-head {
-font-family: 'Inter';
-font-style: normal;
-font-weight: 500;
-font-size: 20px;
-line-height: 28px;
-color: #F36969;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 28px;
+    color: #F36969;
 }
 
 .shimmer {
-    -webkit-mask:linear-gradient(311deg,#000 30%,#0009,#000 70%) right/500% 300%;
+    -webkit-mask: linear-gradient(311deg, #000 30%, #0009, #000 70%) right/500% 300%;
     background-repeat: no-repeat;
     animation: shimmer 1.5s infinite;
     opacity: 0.5;
@@ -550,19 +551,21 @@ color: #F36969;
     pointer-events: none;
     position: relative;
     transition: opacity 0.3s;
-  }
-  
-  
-  @keyframes shimmer {
-    100% {-webkit-mask-position:left}
-  }
-  
-  .tooltip {
+}
+
+
+@keyframes shimmer {
+    100% {
+        -webkit-mask-position: left
+    }
+}
+
+.tooltip {
     position: relative;
-  }
-  
-  /* Tooltip text */
-  .tooltip .tooltiptext {
+}
+
+/* Tooltip text */
+.tooltip .tooltiptext {
     visibility: hidden;
     width: 80%;
     background-color: #E6E9ED;
@@ -572,15 +575,34 @@ color: #F36969;
     position: absolute;
     z-index: 1;
     right: 0;
-  }
-  
-  /* Show the tooltip text when you mouse over the tooltip container */
-  .tooltip:hover .tooltiptext {
-    visibility: visible;
-  }
+}
 
-  :disabled {
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+}
+
+:disabled {
     cursor: not-allowed;
     background: #272d31 !important;
     /* border-block: initial !important; */
+}
+
+a {
+    color: #00FFA4 !important;
+}
+
+a:hover {
+    text-decoration: underline !important;
+    color: #00FFA4 !important;
+}
+
+
+.breadcrum-txt {
+    color: #00FFA4;
+}
+
+.ant-breadcrumb-separator {
+    margin: 0 8px;
+    color: rgb(3 255 164);
 }
