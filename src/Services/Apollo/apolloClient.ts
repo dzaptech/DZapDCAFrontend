@@ -5,7 +5,11 @@ import {
   HttpLink,
   InMemoryCache,
 } from '@apollo/client';
-import { defaultChainId, GRAPH_API } from '../../Config/AppConfig';
+import {
+  defaultChainId,
+  GRAPH_API,
+  secondaryChainId,
+} from '../../Config/AppConfig';
 
 const defaultOptions: DefaultOptions = {
   watchQuery: {
@@ -17,17 +21,17 @@ const defaultOptions: DefaultOptions = {
 };
 
 const endpoint1 = new HttpLink({
-  uri: GRAPH_API[defaultChainId],
+  uri: GRAPH_API[secondaryChainId],
 });
 
 const endpoint2 = new HttpLink({
-  uri: GRAPH_API[137],
+  uri: GRAPH_API[defaultChainId],
 });
 
 const apolloClient = new ApolloClient({
   cache: new InMemoryCache(),
   link: ApolloLink.split(
-    (operation) => operation.getContext().clientName === defaultChainId,
+    (operation) => operation.getContext().clientName === secondaryChainId,
     endpoint1,
     endpoint2,
   ),

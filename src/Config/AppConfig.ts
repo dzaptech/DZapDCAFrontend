@@ -13,10 +13,12 @@ export const dcaVersion = +parseFloat(
   process.env.REACT_APP_DE_ZAP_VERSION || '1',
 );
 
-export const defaultChainId = 80001;
+export const defaultChainId = 137;
+export const secondaryChainId = 80001;
 
 export const GRAPH_API: { [key: number]: string } = {
   [defaultChainId]:
     'https://api.thegraph.com/subgraphs/name/dante055/dcatestmumbai',
-  137: 'https://api.thegraph.com/subgraphs/name/dante055/zelato-polygon-tesnet-v1',
+  [secondaryChainId]:
+    'https://api.thegraph.com/subgraphs/name/dante055/dcatestmumbai',
 };
