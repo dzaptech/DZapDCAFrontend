@@ -4,12 +4,14 @@ import { useSelector } from 'react-redux';
 import graph from '../../../../Assets/Icons/graph.svg';
 import timeline from '../../../../Assets/Icons/timeline.svg';
 import Button from '../../../../Components/Button/Button';
+import { defaultChainId } from '../../../../Config/AppConfig';
 import { nativeCurrencyAddresses } from '../../../../Config/ChainConfig';
 import AuthContext from '../../../../Context/AuthContext';
 import { RootState } from '../../../../Store';
 import { TokenTypes } from '../../../../Types';
 import { getChainInfoValue } from '../../../../Utils/ChainUtils';
 import { getAlternateTokenIcon } from '../../../../Utils/GeneralUtils';
+import { PositionStatus } from '../Constants/enums';
 import { formatSwapInterval } from '../Utils';
 import useActions from './useActions';
 
@@ -24,6 +26,9 @@ interface DataType {
 function useDCATable() {
   const { positions, isLoading } = useSelector(
     (state: RootState) => state.dcaDashboard,
+  );
+  const { isUnsupportedChain } = useSelector(
+    (state: RootState) => state.common,
   );
   const [positionInfo, setPositionInfo] = useState(false);
   const { account } = useContext(AuthContext);
@@ -70,20 +75,33 @@ function useDCATable() {
       title: 'Status',
       dataIndex: 'status',
       key: 'status',
-      render: () => (
-        <span className="inline-flex rounded-full bg-green-300 px-2 text-xs font-semibold leading-5 text-green-800">
-          Running
-        </span>
-      ),
+      render: (status) => {
+        let className = 'text-green-800 bg-green-300';
+        let label = 'Running';
+        if (status === PositionStatus.completed) {
+          className = 'text-blue-800 bg-blue-300';
+          label = 'Completed';
+        } else if (status === PositionStatus.terminated) {
+          className = 'text-red-800 bg-red-300';
+          label = 'Terminated';
+        }
+        return (
+          <span
+            className={`inline-flex rounded-full px-2 text-xs font-semibold leading-5 ${className}`}
+          >
+            {label}
+          </span>
+        );
+      },
     },
     {
       title: 'Chain',
       key: 'chainId',
       dataIndex: 'chainId',
-      render: (value) => (
+      render: () => (
         <img
           className="h-6 w-6"
-          src={getChainInfoValue(value, 'icon')?.toString() || ''}
+          src={getChainInfoValue(defaultChainId, 'icon')?.toString() || ''}
           alt=""
         />
       ),
@@ -92,16 +110,16 @@ function useDCATable() {
       title: 'Interval',
       key: 'swapInterval',
       dataIndex: 'swapInterval',
-      render: (value) => <>{formatSwapInterval(value.toNumber())}</>,
+      render: (value) => <>{formatSwapInterval(value.id)}</>,
     },
     {
       title: 'Remaining',
-      key: 'remaining',
-      dataIndex: 'remaining',
-      render: () => (
+      key: 'remainingSwaps',
+      dataIndex: 'remainingSwaps',
+      render: (remainingSwaps, record: any) => (
         <>
-          <span className="text-sm text-gray-400">0&nbsp;</span>
-          USDT
+          <span className="text-sm text-gray-400">{remainingSwaps}&nbsp;</span>
+          {record.fromToken.symbol}
         </>
       ),
     },
@@ -109,7 +127,12 @@ function useDCATable() {
       title: 'To withdraw',
       key: 'toWithdraw',
       dataIndex: 'toWithdraw',
-      render: () => <>0.0000975338 LINK</>,
+      render: (toWithdraw, record: any) => (
+        <>
+          <span className="text-sm text-gray-400">{toWithdraw}&nbsp;</span>
+          {record.toToken.symbol}
+        </>
+      ),
     },
     {
       title: 'Buy Price',
@@ -134,11 +157,13 @@ function useDCATable() {
             onClick={() => {
               setPositionInfo(record);
             }}
+            disabled={isUnsupportedChain}
             className="btn-table-action w-32 mt-2"
           >
             Modify
           </Button>
           <Button
+            disabled={isUnsupportedChain}
             onClick={() => {
               const terminateParams = [
                 record.positionId,

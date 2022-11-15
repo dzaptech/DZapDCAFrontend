@@ -44,7 +44,7 @@ function useTrx() {
       headIcon = failed;
       head = 'Transaction Failed';
       message =
-        'Position Creation Failed! Check "Transaction Details" while we investigate.';
+        'Execution reverted! Check "Transaction Details" while we investigate.';
     }
   } else {
     if (trxType === TrxType.approving) {

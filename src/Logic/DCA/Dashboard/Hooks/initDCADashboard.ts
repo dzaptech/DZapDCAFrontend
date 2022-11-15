@@ -38,8 +38,10 @@ function initDCADashboard() {
   };
 
   useEffect(() => {
-    dispatch(getAllPositions());
-  }, []);
+    if (account) {
+      dispatch(getAllPositions({ account }));
+    }
+  }, [account]);
 
   useEffect(() => {
     apiGetAllTokens({ chainId: chainFilter[0] }).then((res) => {

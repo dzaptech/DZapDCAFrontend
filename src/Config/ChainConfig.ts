@@ -57,7 +57,7 @@ interface ChainInfoInterface {
       chain: 'Polygon',
       symbol: 'MATIC',
       decimals: 18,
-      name: 'Matic-Testnet',
+      name: 'Polygon',
       icon: polygonIcon,
       hexChainId: '0x13881',
     },
@@ -80,7 +80,7 @@ interface ChainInfoInterface {
     '0x0000000000000000000000000000000000000000',
     eFormatNativeCurrency1
   ];
-  export const supportedChains: number[] = [137];
+  export const supportedChains: number[] = [80001];
   export const alchemyRinkebyApi: string[] = [
     'rinkeby',
     '6Abto5co0LubIKUWva-uq2xpGdUKUc66',

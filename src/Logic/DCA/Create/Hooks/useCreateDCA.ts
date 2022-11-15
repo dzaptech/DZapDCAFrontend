@@ -126,8 +126,6 @@ function useCreateDCA() {
         } else {
           createPosition(contract, params);
         }
-
-        // return { status: STATUS.success, data: res };
       }
     } catch (err: any) {
       errorNotification('Error', err.message);

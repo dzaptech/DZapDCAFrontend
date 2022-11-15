@@ -11,7 +11,7 @@ interface Props {
 }
 const initialState: Props = {
   positions: [],
-  isLoading: true,
+  isLoading: false,
   chainFilter: [defaultChainId],
   actionType: ActionType.terminate,
   actionParams: [],

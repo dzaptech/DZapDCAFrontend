@@ -78,5 +78,15 @@ export const APP_DATA: {
       },
       quoteExpiry: 10,
     },
+    80001: {
+      slippage: 1,
+      gasMultiplier: [12, 10],
+      defaultToken: {
+        ...sampleToken,
+        contract: '0x2791bca1f2de4661ed88a30c99a7a9449aa84174',
+        decimals: 6,
+      },
+      quoteExpiry: 10,
+    },
   },
 };
