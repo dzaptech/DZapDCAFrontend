@@ -2,22 +2,22 @@ import { gql } from '@apollo/client';
 
 export const GetAllPositions = gql`
   query GetAllPositions($id: String) {
-    position(where: { id: $id }) {
+    user(where: { id: $id }) {
       id
-      user
-      from
-      to
-      swapInterval
-      status
-      rate
-      remainingSwaps
-      toWithdraw
-      totalDeposited
-      totalSwapped
-      totalWithdrawn
-      totalSwaps
-      totalExecutedSwaps
-      history
+    #   user
+    #   from
+    #   to
+    #   swapInterval
+    #   status
+    #   rate
+    #   remainingSwaps
+    #   toWithdraw
+    #   totalDeposited
+    #   totalSwapped
+    #   totalWithdrawn
+    #   totalSwaps
+    #   totalExecutedSwaps
+    #   history
     }
   }
 `;
