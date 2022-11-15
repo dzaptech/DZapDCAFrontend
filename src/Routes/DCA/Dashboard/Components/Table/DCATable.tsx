@@ -3,16 +3,34 @@ import { DCATrxState } from '../../../../../Logic/DCA/Create/Constants/enums';
 import useDCATable from '../../../../../Logic/DCA/Dashboard/Hooks/useDCATable';
 import ModifyPosition from '../Actions/Modify/ModifyPosition';
 import DashboardTrxStateModal from '../Trx/DashboardTrxStateModal';
+import Timeline from './Timeline';
 
 function DCATable() {
-  const { columns, positions, isLoading, trxState, retry, positionInfo, modifyPosition, setPositionInfo } =
-    useDCATable();
+  const {
+    columns,
+    positions,
+    isLoading,
+    trxState,
+    retry,
+    positionInfo,
+    modifyPosition,
+    setPositionInfo,
+    history,
+    setHistory,
+  } = useDCATable();
   return (
     <div>
+      {history && <Timeline setHistory={setHistory} history={history} />}
       {trxState !== DCATrxState.unset && (
         <DashboardTrxStateModal retry={retry} />
       )}
-      {!!positionInfo && <ModifyPosition setPositionInfo={setPositionInfo} positionInfo={positionInfo} modifyPosition={modifyPosition} />}
+      {!!positionInfo && (
+        <ModifyPosition
+          setPositionInfo={setPositionInfo}
+          positionInfo={positionInfo}
+          modifyPosition={modifyPosition}
+        />
+      )}
       <Table
         className="trx-table"
         columns={columns}

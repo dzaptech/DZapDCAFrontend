@@ -3,8 +3,10 @@ export enum ActionType {
   modify = 2,
 }
 
-export enum PositionStatus {
+export enum PositionActions {
   active = 'ACTIVE',
   terminated = 'TERMINATED',
   completed = 'COMPLETED',
+  swapped = 'SWAPPED',
+  modified = 'SWAPPED',
 }

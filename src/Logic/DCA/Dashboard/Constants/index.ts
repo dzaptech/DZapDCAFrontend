@@ -15,3 +15,9 @@ export const DCA_FORM_DEFAULT_VALUES = {
 };
 
 export const EVENT_CREATE_POSITION = 'Created';
+
+export const TIMELINE_TABS = {
+  positions: 'Positions',
+  order: 'Orders',
+  trades: 'Trades',
+};

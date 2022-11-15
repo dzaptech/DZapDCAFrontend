@@ -1,7 +1,6 @@
 import { ColumnsType } from 'antd/lib/table';
 import { useContext, useState } from 'react';
 import { useSelector } from 'react-redux';
-import graph from '../../../../Assets/Icons/graph.svg';
 import timeline from '../../../../Assets/Icons/timeline.svg';
 import Button from '../../../../Components/Button/Button';
 import { defaultChainId } from '../../../../Config/AppConfig';
@@ -11,7 +10,8 @@ import { RootState } from '../../../../Store';
 import { TokenTypes } from '../../../../Types';
 import { getChainInfoValue } from '../../../../Utils/ChainUtils';
 import { getAlternateTokenIcon } from '../../../../Utils/GeneralUtils';
-import { PositionStatus } from '../Constants/enums';
+import { PositionActions } from '../Constants/enums';
+import { PositionHistoryType } from '../Types';
 import { formatSwapInterval } from '../Utils';
 import useActions from './useActions';
 
@@ -31,6 +31,10 @@ function useDCATable() {
     (state: RootState) => state.common,
   );
   const [positionInfo, setPositionInfo] = useState(false);
+  const [history, setHistory] = useState<PositionHistoryType[] | undefined>(
+    undefined,
+  );
+
   const { account } = useContext(AuthContext);
   const { trxState } = useSelector((state: RootState) => state.dca);
   const { terminate, modifyPosition, retry } = useActions();
@@ -78,10 +82,10 @@ function useDCATable() {
       render: (status) => {
         let className = 'text-green-800 bg-green-300';
         let label = 'Running';
-        if (status === PositionStatus.completed) {
+        if (status === PositionActions.completed) {
           className = 'text-blue-800 bg-blue-300';
           label = 'Completed';
-        } else if (status === PositionStatus.terminated) {
+        } else if (status === PositionActions.terminated) {
           className = 'text-red-800 bg-red-300';
           label = 'Terminated';
         }
@@ -134,18 +138,21 @@ function useDCATable() {
         </>
       ),
     },
-    {
-      title: 'Buy Price',
-      key: 'buyPrice',
-      dataIndex: 'buyPrice',
-      render: () => <img src={graph} alt="" />,
-    },
-
+    // {
+    //   title: 'Buy Price',
+    //   key: 'buyPrice',
+    //   dataIndex: 'buyPrice',
+    //   render: () => <img src={graph} alt="" />,
+    // },
     {
       title: 'Timeline',
-      key: 'timeline',
-      dataIndex: 'timeline',
-      render: () => <img src={timeline} alt="" />,
+      key: 'history',
+      dataIndex: 'history',
+      render: (value) => (
+        <Button onClick={() => setHistory(value)}>
+          <img src={timeline} alt="" />
+        </Button>
+      ),
     },
     {
       title: 'Action',
@@ -157,13 +164,17 @@ function useDCATable() {
             onClick={() => {
               setPositionInfo(record);
             }}
-            disabled={isUnsupportedChain}
+            disabled={
+              isUnsupportedChain || record.status !== PositionActions.active
+            }
             className="btn-table-action w-32 mt-2"
           >
             Modify
           </Button>
           <Button
-            disabled={isUnsupportedChain}
+            disabled={
+              isUnsupportedChain || record.status !== PositionActions.active
+            }
             onClick={() => {
               const terminateParams = [
                 record.positionId,
@@ -190,6 +201,8 @@ function useDCATable() {
     positionInfo,
     modifyPosition,
     setPositionInfo,
+    history,
+    setHistory,
   };
 }
 

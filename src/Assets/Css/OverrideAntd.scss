@@ -130,3 +130,62 @@
     background: #00FFA4;
     border-color: #00FFA4;
 }
+
+
+.ant-tabs-tab {
+    position: relative;
+    display: -ms-inline-flexbox;
+    text-align: -webkit-center;
+    display: inline-flex;
+    -ms-flex-align: center;
+    align-items: center;
+    margin: 0 0 0 0;
+    padding: 12px 0;
+    border: 0;
+    outline: none;
+    cursor: pointer;
+    font-size: 14px;
+    line-height: 19px;
+    font-weight: 500;
+    letter-spacing: -0.213333px;
+    color: #a0b0c3;
+}
+
+.ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+    color: #fff;
+    font-weight: 700;
+}
+
+.ant-tabs-tab:hover {
+    color: #fff;
+}
+
+.ant-tabs-top>.ant-tabs-nav .ant-tabs-ink-bar,
+.ant-tabs-top>div>.ant-tabs-nav .ant-tabs-ink-bar {
+    bottom: 0;
+}
+
+.ant-tabs-ink-bar {
+    position: absolute;
+    background: #fff;
+    pointer-events: none;
+}
+
+.ant-tabs-top>.ant-tabs-nav::before,
+.ant-tabs-bottom>.ant-tabs-nav::before,
+.ant-tabs-top>div>.ant-tabs-nav::before,
+.ant-tabs-bottom>div>.ant-tabs-nav::before {
+    border-bottom: 0px !important;
+}
+
+.ant-list-split .ant-list-item {
+    border: 1px solid rgb(0 0 0 / 25%);
+    background: #272d31;
+    margin: 4px 0px;
+    padding: 10px 10px;
+    border-radius: 8px;
+}
+
+.ant-empty-description {
+    color: #fff !important;
+}

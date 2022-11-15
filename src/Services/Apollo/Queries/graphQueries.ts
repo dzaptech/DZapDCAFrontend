@@ -5,7 +5,7 @@ export const GetAllPositions = gql`
     user(id: $id) {
       id
       positions {
-        id,
+        id
         user
         from {
           id
@@ -28,7 +28,12 @@ export const GetAllPositions = gql`
         totalWithdrawn
         totalSwaps
         totalExecutedSwaps
-        history
+        history {
+          id
+          action
+          transactionHash
+          createdAtTimestamp
+        }
       }
     }
   }
