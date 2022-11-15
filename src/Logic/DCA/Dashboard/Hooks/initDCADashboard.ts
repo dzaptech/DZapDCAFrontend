@@ -9,13 +9,14 @@ import { TokenTypes } from '../../../../Types';
 import { getPastEvent } from '../../../../Utils/ContractUtils';
 
 import { setIsLoading, setPositions } from '../Store';
+import { getAllPositions } from '../Store/Action';
 import { getPositionEventParams, parsePositionEventData } from '../Utils';
 
 function initDCADashboard() {
   const { account } = useContext(AuthContext);
   const { chainFilter } = useSelector((state: RootState) => state.dcaDashboard);
   const { tokenList } = useSelector((state: RootState) => state.common);
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<any>();
   const [parsedPositions, setParsedPositions] = useState([]);
   const [positionsTokenList, setPositionsTokenList] = useState<string[]>([]);
 
@@ -37,6 +38,10 @@ function initDCADashboard() {
   };
 
   useEffect(() => {
+    dispatch(getAllPositions());
+  }, []);
+
+  useEffect(() => {
     apiGetAllTokens({ chainId: chainFilter[0] }).then((res) => {
       if (res.status === STATUS.success) {
         dispatch(setTokenList(res.data));
@@ -47,7 +52,7 @@ function initDCADashboard() {
   }, [chainFilter]);
 
   useEffect(() => {
-    if (account) {
+    if (account && false) {
       getPositions();
     }
   }, [chainFilter, account]);
