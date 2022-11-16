@@ -1,8 +1,6 @@
 import React, { useContext } from 'react';
 import approved from '../../../../../Assets/Icons/approved.svg';
 import explorer from '../../../../../Assets/Icons/explorer-green.svg';
-import twitter from '../../../../../Assets/Icons/twitter.svg';
-import ShareOnTwitter from '../../../../../Components/Misc/ShareOnTwitter';
 import AuthContext from '../../../../../Context/AuthContext';
 import { getHashExplorerLink } from '../../../../../Utils/ChainUtils';
 
@@ -24,7 +22,7 @@ function Receipt({ data, onFinish }: { data: any; onFinish: Function }) {
         <p className="text-gray50 text-center w-full mb-1">
           Your transaction was completed!
         </p>
-        <div className="w-full flex justify-center items-center mb-12">
+        {/* <div className="w-full flex justify-center items-center mb-12">
           <ShareOnTwitter url={'https://www.dzap.io/\n\n'}>
             <div className="flex">
               <img
@@ -35,7 +33,7 @@ function Receipt({ data, onFinish }: { data: any; onFinish: Function }) {
               <p className="text-green300">Spread the word on Twitter</p>
             </div>
           </ShareOnTwitter>
-        </div>
+        </div> */}
         <button
           type="button"
           onClick={() => {

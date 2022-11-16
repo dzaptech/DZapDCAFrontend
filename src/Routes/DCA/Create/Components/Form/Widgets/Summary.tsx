@@ -1,5 +1,3 @@
-import refresh from '../../../../../../Assets/Icons/refresh.svg';
-import setting from '../../../../../../Assets/Icons/setting.svg';
 import Button from '../../../../../../Components/Button/Button';
 import useSummary from '../../../../../../Logic/DCA/Create/Hooks/useSummary';
 import { TokenTypes } from '../../../../../../Types';
@@ -22,11 +20,11 @@ export default function Summary({
     hasAllowance,
   });
   return (
-    <div className="md:col-span-1 ml-5">
-      <div className="flex justify-end pb-3">
+    <div className="md:col-span-1 ml-5 pt-7">
+      {/* <div className="flex justify-end pb-3">
         <img src={refresh} alt="" />
         <img src={setting} alt="" className="ml-3" />
-      </div>
+      </div> */}
       <div className="container-summary">
         <p className="pl-4 pt-4 text-sm font-semibold text-white">Summary</p>
         <div className="divide-y divide-gray-400">

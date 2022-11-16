@@ -31,9 +31,7 @@ function useSummary({
     (state: RootState) => state.common,
   );
   const { trxState } = useSelector((state: RootState) => state.dca);
-  const amount =
-    +Form.useWatch(DCA_FORM_FIELD.amount, form) ||
-    DCA_FORM_DEFAULT_VALUES.amount;
+  const amount = +Form.useWatch(DCA_FORM_FIELD.amount, form) || 0;
   const period =
     +Form.useWatch(DCA_FORM_FIELD.period, form) ||
     DCA_FORM_DEFAULT_VALUES.period;
@@ -75,6 +73,8 @@ function useSummary({
       btn = 'Switch Network';
     } else if (isInsufficientFund) {
       btn = 'INSUFFICIENT FUNDS';
+    } else if (amount <= 0) {
+      btn = 'ENTER VALID AMOUNT';
     } else {
       if (!hasAllowance) {
         btn = `Approve ${symbol}`;
