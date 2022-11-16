@@ -1,4 +1,5 @@
 import { Form, Modal } from 'antd';
+import { BigNumber } from 'ethers';
 import { useContext, useEffect, useState } from 'react';
 import '../../../../../../Assets/Css/DCA/Create.scss';
 import { nativeCurrencyAddresses } from '../../../../../../Config/ChainConfig';
@@ -47,15 +48,20 @@ function ModifyPosition({
   }, []);
   const [form] = Form.useForm();
   const cycleKey = Form.useWatch(DCA_FORM_FIELD.cycle, form) || 'daily';
-  const amount =
-    +Form.useWatch(DCA_FORM_FIELD.amount, form) ||
-    DCA_FORM_DEFAULT_VALUES.amount;
+  const amount = +Form.useWatch(DCA_FORM_FIELD.amount, form) || 0;
   const period =
     +Form.useWatch(DCA_FORM_FIELD.period, form) ||
     DCA_FORM_DEFAULT_VALUES.period;
   const isInsufficientFund = tokenBalance < amount;
-  const btn = isInsufficientFund ? 'INSUFFICIENT FUNDS' : 'MODIFY';
-
+  let btn = 'MODIFY';
+  if (amount <= 0) {
+    btn = 'ENTER VALID AMOUNT';
+  } else if (isInsufficientFund) {
+    btn = 'INSUFFICIENT FUNDS';
+  }
+  const currentAmount = BigNumber.from(positionInfo.rate).mul(
+    positionInfo.remainingSwaps,
+  );
   return (
     <Modal
       centered
@@ -72,12 +78,19 @@ function ModifyPosition({
             const inputtedAmount =
               formValue[DCA_FORM_FIELD.amount] ||
               DCA_FORM_DEFAULT_VALUES.amount;
+            const amountInWei = parseUnitsInWei(
+              inputtedAmount,
+              fromToken.decimals,
+            );
+            const isInc = currentAmount.lt(amountInWei);
             const params = [
               positionInfo.positionId,
-              parseUnitsInWei(inputtedAmount, fromToken.decimals),
+              isInc
+                ? BigNumber.from(amountInWei).sub(currentAmount)
+                : currentAmount.sub(amountInWei),
               formValue[DCA_FORM_FIELD.period],
               '0x',
-              true,
+              currentAmount.lt(amountInWei),
               nativeCurrencyAddresses.includes(fromToken.contract),
             ];
             modifyPosition(params);
@@ -100,7 +113,7 @@ function ModifyPosition({
             <Summary
               positionInfo={positionInfo}
               btn={btn}
-              isDisabled={isInsufficientFund}
+              isDisabled={isInsufficientFund || amount <= 0}
               period={period}
               amount={amount}
             />

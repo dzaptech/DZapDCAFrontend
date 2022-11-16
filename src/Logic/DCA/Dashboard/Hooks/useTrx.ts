@@ -1,3 +1,4 @@
+import { useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import errorGas from '../../../../Assets/Designs/gas.svg';
 import success from '../../../../Assets/Icons/approved.svg';
@@ -6,16 +7,20 @@ import rejected from '../../../../Assets/Icons/rejected.png';
 import waiting from '../../../../Assets/Loader/pulse-ring.svg';
 import { STATUS } from '../../../../Constants/AppConstants';
 import { TrxType } from '../../../../Constants/enums';
+import AuthContext from '../../../../Context/AuthContext';
 import { RootState } from '../../../../Store';
 import { DCATrxState } from '../../Create/Constants/enums';
 import { setTrxResponse, setTrxState } from '../../Create/Store';
+import { getAllPositions } from '../Store/Action';
 
 function useTrx() {
+  const { chainId, account } = useContext(AuthContext);
+
   const { trxResponse } = useSelector((state: RootState) => state.dca);
   const { nativeCurrencyInfo, trxType } = useSelector(
     (state: RootState) => state.common,
   );
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<any>();
 
   const { balance: nativeBalance } = nativeCurrencyInfo;
   const isInsufficientGasFee = nativeBalance === 0;
@@ -65,6 +70,7 @@ function useTrx() {
   const onFinish = () => {
     dispatch(setTrxResponse(undefined));
     dispatch(setTrxState(DCATrxState.unset));
+    dispatch(getAllPositions({ account: account || '', chainId }));
   };
   return {
     headIcon,

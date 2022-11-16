@@ -17,7 +17,7 @@ import { setActionParams, setActionType } from '../Store';
 
 function useActions() {
   const { chainId, readWriteProvider } = useContext(AuthContext);
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<any>();
   const { actionParams, actionType } = useSelector(
     (state: RootState) => state.dcaDashboard,
   );
@@ -76,6 +76,7 @@ function useActions() {
       modifyPosition(actionParams);
     }
   };
+
   return {
     terminate,
     modifyPosition,

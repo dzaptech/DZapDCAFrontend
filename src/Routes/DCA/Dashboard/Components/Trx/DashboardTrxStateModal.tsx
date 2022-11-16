@@ -4,7 +4,13 @@ import { STATUS } from '../../../../../Constants/AppConstants';
 import useTrx from '../../../../../Logic/DCA/Dashboard/Hooks/useTrx';
 import Receipt from './Receipt';
 
-function DashboardTrxStateModal({ retry }: { retry: Function }) {
+function DashboardTrxStateModal({
+  setPositionInfo,
+  retry,
+}: {
+  setPositionInfo: Function;
+  retry: Function;
+}) {
   const {
     headIcon,
     onDismiss,
@@ -29,7 +35,13 @@ function DashboardTrxStateModal({ retry }: { retry: Function }) {
     >
       <div className="w-full h-340px m-auto rounded-lg bg-gray850">
         {status === STATUS.success ? (
-          <Receipt data={data} onFinish={onFinish} />
+          <Receipt
+            data={data}
+            onFinish={() => {
+              setPositionInfo(undefined);
+              onFinish();
+            }}
+          />
         ) : (
           <div className="pb-12">
             <div className="w-full h-14 flex justify-center items-center border-b-gray700 border-b">

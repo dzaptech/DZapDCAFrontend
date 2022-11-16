@@ -13,6 +13,7 @@ export const GetAllPositions = gql`
           decimals
         }
         to {
+          id
           symbol
           decimals
         }

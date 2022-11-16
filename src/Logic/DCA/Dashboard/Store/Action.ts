@@ -32,7 +32,7 @@ export const getAllPositions = createAsyncThunk(
         const { logo: toTokenLogo } =
           tokenList.find(
             (token: TokenTypes) =>
-              token.contract.toLowerCase() === item.from.id.toLowerCase(),
+              token.contract.toLowerCase() === item.to.id.toLowerCase(),
           ) || {};
 
         return {

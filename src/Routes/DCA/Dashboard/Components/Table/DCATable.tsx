@@ -27,7 +27,10 @@ function DCATable() {
         />
       )}
       {trxState !== DCATrxState.unset && (
-        <DashboardTrxStateModal retry={retry} />
+        <DashboardTrxStateModal
+          setPositionInfo={setPositionInfo}
+          retry={retry}
+        />
       )}
       {!!positionInfo && (
         <ModifyPosition

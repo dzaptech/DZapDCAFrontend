@@ -38,6 +38,10 @@ export const INVESTMENT_CYCLE: {
     label: string;
   };
 } = {
+  hourly: {
+    value: 2 / (24 * 60),
+    label: '2 min',
+  },
   daily: {
     value: 1,
     label: 'Daily',

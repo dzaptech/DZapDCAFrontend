@@ -41,8 +41,7 @@ function useSummary({
     currentFromToken.decimals,
   );
   const cycle = INVESTMENT_CYCLE[cycleKey].value;
-  const isInsufficientFund =
-    balance < DCA_FORM_DEFAULT_VALUES.amount || balance < amount;
+  const isInsufficientFund = balance < amount;
   const summary = [
     {
       id: 1,
