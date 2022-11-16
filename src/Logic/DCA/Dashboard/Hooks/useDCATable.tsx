@@ -1,4 +1,5 @@
 import { ColumnsType } from 'antd/lib/table';
+import { BigNumber } from 'ethers';
 import { useContext, useState } from 'react';
 import { useSelector } from 'react-redux';
 import timeline from '../../../../Assets/Icons/timeline.svg';
@@ -9,7 +10,7 @@ import AuthContext from '../../../../Context/AuthContext';
 import { RootState } from '../../../../Store';
 import { TokenTypes } from '../../../../Types';
 import { getChainInfoValue } from '../../../../Utils/ChainUtils';
-import { getAlternateTokenIcon } from '../../../../Utils/GeneralUtils';
+import { abbreviateCurrency } from '../../../../Utils/GeneralUtils';
 import { PositionActions } from '../Constants/enums';
 import { PositionHistoryType } from '../Types';
 import { formatSwapInterval } from '../Utils';
@@ -38,8 +39,6 @@ function useDCATable() {
   const { account } = useContext(AuthContext);
   const { trxState } = useSelector((state: RootState) => state.dca);
   const { terminate, modifyPosition, retry } = useActions();
-  const alternateIcon = getAlternateTokenIcon();
-
   const columns: ColumnsType<DataType> = [
     {
       title: 'I/P',
@@ -50,7 +49,7 @@ function useDCATable() {
           <img
             className="rounded-full h-6 w-6 mr-2"
             src={fromToken.logo}
-            alt={alternateIcon}
+            alt=""
           />
           <p className="font-medium text-sm text-white mullish">
             {fromToken.symbol}
@@ -67,7 +66,7 @@ function useDCATable() {
           <img
             className="rounded-full h-6 w-6 mr-2"
             src={toToken.logo}
-            alt={alternateIcon}
+            alt=""
           />
           <p className="font-medium text-sm text-white mullish">
             {toToken.symbol}
@@ -117,12 +116,31 @@ function useDCATable() {
       render: (value) => <>{formatSwapInterval(value.id)}</>,
     },
     {
+      title: 'Executed',
+      key: 'totalExecutedSwaps',
+      dataIndex: 'totalExecutedSwaps',
+      render: (totalExecutedSwaps) => (
+        <>
+          <span className="text-sm text-gray-400">
+            {totalExecutedSwaps}&nbsp;
+          </span>
+          Swaps
+        </>
+      ),
+    },
+    {
       title: 'Remaining',
       key: 'remainingSwaps',
       dataIndex: 'remainingSwaps',
       render: (remainingSwaps, record: any) => (
         <>
-          <span className="text-sm text-gray-400">{remainingSwaps}&nbsp;</span>
+          <span className="text-sm text-gray-400">
+            {abbreviateCurrency(
+              BigNumber.from(record.rate).mul(remainingSwaps),
+              record.fromToken.decimals,
+            )}
+            &nbsp;
+          </span>
           {record.fromToken.symbol}
         </>
       ),
@@ -133,7 +151,9 @@ function useDCATable() {
       dataIndex: 'toWithdraw',
       render: (toWithdraw, record: any) => (
         <>
-          <span className="text-sm text-gray-400">{toWithdraw}&nbsp;</span>
+          <span className="text-sm text-gray-400">
+            {abbreviateCurrency(toWithdraw, record.toToken.decimals)}&nbsp;
+          </span>
           {record.toToken.symbol}
         </>
       ),

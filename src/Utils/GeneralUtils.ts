@@ -77,8 +77,10 @@ export const currencyFormatter = (
   );
 
 // Converts small unit to big unit => Like WEI to ETH -> 1000000 => 1 USDT, returns a String
-export const abbreviateCurrency = (value: number | string, decimals: number) =>
-  abbreviateNumber(+currencyFormatter(value, decimals), 4);
+export const abbreviateCurrency = (
+  value: number | string | BigNumber,
+  decimals: number,
+) => abbreviateNumber(+currencyFormatter(value, decimals), 4);
 
 export const parseCurrencyToBigNumber = (
   valueString: string | number,

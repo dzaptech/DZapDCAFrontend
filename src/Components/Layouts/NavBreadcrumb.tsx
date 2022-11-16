@@ -2,7 +2,6 @@ import { Breadcrumb } from 'antd';
 
 function NavBreadcrumb() {
   const { pathname } = window.location;
-  console.log(pathname);
 
   return (
     <Breadcrumb>

@@ -3,10 +3,7 @@ import downArrow from '../../../../../../Assets/Icons/dropdown-arrow.svg';
 import swap from '../../../../../../Assets/Icons/swap.svg';
 import Button from '../../../../../../Components/Button/Button';
 import { TokenTypes } from '../../../../../../Types';
-import {
-  getAlternateTokenIcon,
-  parseJsonString,
-} from '../../../../../../Utils/GeneralUtils';
+import { parseJsonString } from '../../../../../../Utils/GeneralUtils';
 
 const { Option } = Select;
 
@@ -25,7 +22,6 @@ function TokenSelector({
   toTokenContract: string;
   onChangeFromToken: Function;
 }) {
-  const alternateIcon = getAlternateTokenIcon();
   return (
     <dl className="grid grid-cols-1 sm:grid-cols-12">
       <div className="sm:col-span-5">
@@ -50,7 +46,7 @@ function TokenSelector({
                   <img
                     className="rounded-full h-6 w-6 mr-2"
                     src={item.logo}
-                    alt={alternateIcon}
+                    alt=""
                   />
                   <p className="font-medium text-sm text-white mullish">
                     {item.symbol}
@@ -87,7 +83,7 @@ function TokenSelector({
                   <img
                     className="rounded-full h-6 w-6 mr-2"
                     src={item.logo}
-                    alt={alternateIcon}
+                    alt=""
                   />
                   <p className="font-medium text-sm text-white mullish">
                     {item.symbol}

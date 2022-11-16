@@ -1,7 +1,7 @@
 import binanceIcon from '../Assets/Icons/binance.svg';
 import ethIcon from '../Assets/Icons/ethereum.svg';
 import polygonIcon from '../Assets/Icons/polygon.svg';
-import { defaultChainId, secondaryChainId } from './AppConfig';
+import { defaultChainId } from './AppConfig';
 
 interface ChainInfoInterface {
   [key: number]: {
@@ -83,7 +83,7 @@ export const nativeCurrencyAddresses: string[] = [
   '0x0000000000000000000000000000000000000000',
   eFormatNativeCurrency1,
 ];
-export const supportedChains: number[] = [defaultChainId, secondaryChainId];
+export const supportedChains: number[] = [defaultChainId];
 export const alchemyRinkebyApi: string[] = [
   'rinkeby',
   '6Abto5co0LubIKUWva-uq2xpGdUKUc66',

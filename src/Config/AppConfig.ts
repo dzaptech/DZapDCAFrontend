@@ -14,11 +14,9 @@ export const dcaVersion = +parseFloat(
 );
 
 export const defaultChainId = 137;
-export const secondaryChainId = 80001;
+// export const defaultChainId = 80001;
 
 export const GRAPH_API: { [key: number]: string } = {
   [defaultChainId]:
-    'https://api.thegraph.com/subgraphs/name/dante055/dcatestmumbai',
-  [secondaryChainId]:
-    'https://api.thegraph.com/subgraphs/name/dante055/dcatestmumbai',
+    'https://api.thegraph.com/subgraphs/name/dante055/dcatestmumbai3',
 };
