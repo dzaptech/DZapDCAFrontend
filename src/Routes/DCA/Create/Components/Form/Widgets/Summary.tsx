@@ -87,19 +87,19 @@ export default function Summary({
           </div>
         </div>
       </div>
-      <p className="text-sm text-gray-500 font-normal py-2">
+      {/* <p className="text-sm text-gray-500 font-normal py-2">
         Withdraw and Modify functions available{' '}
         <Button className="btn-learn-more">
           <p className="underline underline-offset-4 font-semibold">
             Learn more
           </p>
         </Button>
-      </p>
+      </p> */}
       <Button
         disabled={isDisable}
         loading={isLoading}
         isSubmit
-        className="create-position-btn w-full mt-2"
+        className="create-position-btn w-full mt-6"
       >
         {btn || <div className="dot__loader mb-5 m-auto" />}
       </Button>

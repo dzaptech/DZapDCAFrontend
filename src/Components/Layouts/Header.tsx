@@ -3,7 +3,7 @@ import logo from '../../Assets/Logo/dzap.svg';
 import AuthContext from '../../Context/AuthContext';
 import SupportedChainList from '../Wallet/SupportedChainList';
 import WalletComponent from '../Wallet/WalletComponent';
-import NavBreadcrumb from './NavBreadcrumb';
+import NavigationBar from './NavigationBar';
 
 function Header() {
   const { account } = useContext(AuthContext);
@@ -14,7 +14,7 @@ function Header() {
           <a href="/">
             <img src={logo} alt="logo" />
           </a>
-          <NavBreadcrumb />
+          <NavigationBar />
         </div>
         <div className="flex justify-center items-center gap-x-3">
           <div className="md:block hidden">
