@@ -20,7 +20,7 @@ function Positions({ timelineData }: { timelineData: TimelineType }) {
         (item: PositionHistoryType) => item.action !== PositionActions.swapped,
       )}
       renderItem={(item: PositionHistoryType) => {
-        let description = 'Position creation executed!';
+        let description = 'Position created.';
         if (
           item.action === PositionActions.modifyDuration ||
           item.action === PositionActions.modifyRate ||
@@ -28,7 +28,7 @@ function Positions({ timelineData }: { timelineData: TimelineType }) {
         ) {
           description = parsePositionModifiedDesc(item, fromToken);
         } else if (item.action === PositionActions.terminated) {
-          description = 'Position termination executed!';
+          description = 'Position terminated.';
         }
         return (
           <List.Item>

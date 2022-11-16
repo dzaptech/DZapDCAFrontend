@@ -114,9 +114,9 @@ export const parsePositionModifiedDesc = (
     )} ${fromToken.symbol} to ${abbreviateCurrency(
       amount,
       fromToken.decimals,
-    )} ${fromToken.symbol}, Duration ${durationModifyType} from ${
-      item.prevRemainingSwaps
-    } to ${item.remainingSwaps}`;
+    )} ${fromToken.symbol}, Duration ${durationModifyType} by ${Math.abs(
+      +item.prevRemainingSwaps - +item.remainingSwaps,
+    )}`;
   }
   return `Modify : ${description}`;
 };
