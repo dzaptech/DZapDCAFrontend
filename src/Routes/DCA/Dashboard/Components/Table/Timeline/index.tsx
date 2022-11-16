@@ -1,16 +1,16 @@
-import { List, Modal, Tabs } from 'antd';
-import moment from 'moment';
+import { Modal, Tabs } from 'antd';
 import React from 'react';
 import { TIMELINE_TABS } from '../../../../../../Logic/DCA/Dashboard/Constants';
-import { PositionActions } from '../../../../../../Logic/DCA/Dashboard/Constants/enums';
-import { PositionHistoryType } from '../../../../../../Logic/DCA/Dashboard/Types';
+import { TimelineType } from '../../../../../../Logic/DCA/Dashboard/Types';
+import Order from './Order';
+import Positions from './Positions';
 
 function Timeline({
-  history,
-  setHistory,
+  timelineData,
+  setTimelineData,
 }: {
-  history: PositionHistoryType[];
-  setHistory: Function;
+  timelineData: TimelineType;
+  setTimelineData: Function;
 }) {
   return (
     <Modal
@@ -20,7 +20,7 @@ function Timeline({
       closeIcon={<span className="text-white">&#x2715;</span>}
       footer={null}
       onCancel={() => {
-        setHistory(undefined);
+        setTimelineData(undefined);
       }}
     >
       <div className="m-auto p-6 rounded-lg bg-gray850">
@@ -29,66 +29,10 @@ function Timeline({
             tab={TIMELINE_TABS.positions}
             key={TIMELINE_TABS.positions}
           >
-            <List
-              itemLayout="horizontal"
-              dataSource={history.filter(
-                (item: PositionHistoryType) =>
-                  item.action !== PositionActions.swapped,
-              )}
-              renderItem={(item: PositionHistoryType) => {
-                let action = 'Created';
-                if (item.action === PositionActions.modified) {
-                  action = 'Modified';
-                } else if (item.action === PositionActions.terminated) {
-                  action = 'Terminated';
-                }
-                return (
-                  <List.Item>
-                    <List.Item.Meta
-                      title={
-                        <span className="text-sm text-gray-400">
-                          {moment(+item.createdAtTimestamp * 1000).format(
-                            'DD MMM YYYY, h:mm A',
-                          )}
-                        </span>
-                      }
-                      description={
-                        <p className="font-medium text-sm text-white mullish">
-                          Position {action} : add description
-                        </p>
-                      }
-                    />
-                  </List.Item>
-                );
-              }}
-            />
+            <Positions timelineData={timelineData} />
           </Tabs.TabPane>
           <Tabs.TabPane tab={TIMELINE_TABS.trades} key={TIMELINE_TABS.trades}>
-            <List
-              itemLayout="horizontal"
-              dataSource={history.filter(
-                (item: PositionHistoryType) =>
-                  item.action === PositionActions.swapped,
-              )}
-              renderItem={(item: PositionHistoryType) => (
-                <List.Item>
-                  <List.Item.Meta
-                    title={
-                      <span className="text-sm text-gray-400">
-                        {moment(+item.createdAtTimestamp * 1000).format(
-                          'DD MMM YYYY, h:mm A',
-                        )}
-                      </span>
-                    }
-                    description={
-                      <p className="font-medium text-sm text-white mullish">
-                        Swapped : add description
-                      </p>
-                    }
-                  />
-                </List.Item>
-              )}
-            />
+            <Order timelineData={timelineData} />
           </Tabs.TabPane>
         </Tabs>
       </div>

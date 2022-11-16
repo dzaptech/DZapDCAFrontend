@@ -15,12 +15,17 @@ function DCATable() {
     positionInfo,
     modifyPosition,
     setPositionInfo,
-    history,
-    setHistory,
+    timelineData,
+    setTimelineData,
   } = useDCATable();
   return (
     <div>
-      {history && <Timeline setHistory={setHistory} history={history} />}
+      {timelineData && (
+        <Timeline
+          setTimelineData={setTimelineData}
+          timelineData={timelineData}
+        />
+      )}
       {trxState !== DCATrxState.unset && (
         <DashboardTrxStateModal retry={retry} />
       )}

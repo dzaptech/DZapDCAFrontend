@@ -33,6 +33,18 @@ export const GetAllPositions = gql`
           action
           transactionHash
           createdAtTimestamp
+          rate
+          remainingSwaps
+          prevRate
+          prevRemainingSwaps
+          recipientSwapped
+          recipientUnswapped
+          swapped
+          unSwapped
+          recipient
+          withdrawn
+          fromAmount
+          toAmount
         }
       }
     }

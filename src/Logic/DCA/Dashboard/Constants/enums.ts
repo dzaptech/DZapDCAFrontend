@@ -8,5 +8,8 @@ export enum PositionActions {
   terminated = 'TERMINATED',
   completed = 'COMPLETED',
   swapped = 'SWAPPED',
-  modified = 'SWAPPED',
+  modifyRate = 'MODIFIED_RATE',
+  modifyDuration = 'MODIFIED_DURATION',
+  modifyRateDuration = 'MODIFIED_RATE_AND_DURATION',
+  withdraw = 'WITHDREW',
 }

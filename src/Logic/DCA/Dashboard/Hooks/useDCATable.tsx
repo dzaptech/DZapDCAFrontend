@@ -2,7 +2,7 @@ import { ColumnsType } from 'antd/lib/table';
 import { BigNumber } from 'ethers';
 import { useContext, useState } from 'react';
 import { useSelector } from 'react-redux';
-import timeline from '../../../../Assets/Icons/timeline.svg';
+import iconTimeline from '../../../../Assets/Icons/timeline.svg';
 import Button from '../../../../Components/Button/Button';
 import { defaultChainId } from '../../../../Config/AppConfig';
 import { nativeCurrencyAddresses } from '../../../../Config/ChainConfig';
@@ -12,7 +12,7 @@ import { TokenTypes } from '../../../../Types';
 import { getChainInfoValue } from '../../../../Utils/ChainUtils';
 import { abbreviateCurrency } from '../../../../Utils/GeneralUtils';
 import { PositionActions } from '../Constants/enums';
-import { PositionHistoryType } from '../Types';
+import { TimelineType } from '../Types';
 import { formatSwapInterval } from '../Utils';
 import useActions from './useActions';
 
@@ -32,7 +32,7 @@ function useDCATable() {
     (state: RootState) => state.common,
   );
   const [positionInfo, setPositionInfo] = useState(false);
-  const [history, setHistory] = useState<PositionHistoryType[] | undefined>(
+  const [timelineData, setTimelineData] = useState<TimelineType | undefined>(
     undefined,
   );
 
@@ -168,9 +168,16 @@ function useDCATable() {
       title: 'Timeline',
       key: 'history',
       dataIndex: 'history',
-      render: (value) => (
-        <Button onClick={() => setHistory(value)}>
-          <img src={timeline} alt="" />
+      render: (history, { fromToken, toToken }: any) => (
+        <Button
+          onClick={() =>
+            setTimelineData({
+              tokenInfo: { fromToken, toToken },
+              history,
+            })
+          }
+        >
+          <img src={iconTimeline} alt="" />
         </Button>
       ),
     },
@@ -221,8 +228,8 @@ function useDCATable() {
     positionInfo,
     modifyPosition,
     setPositionInfo,
-    history,
-    setHistory,
+    timelineData,
+    setTimelineData,
   };
 }
 
