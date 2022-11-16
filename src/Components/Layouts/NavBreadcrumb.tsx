@@ -8,7 +8,7 @@ function NavBreadcrumb() {
       <Breadcrumb.Item>
         <span className="breadcrum-txt">DCA</span>
       </Breadcrumb.Item>
-      {pathname === '/positions' ? (
+      {pathname === '/dashboard' ? (
         <Breadcrumb.Item>
           <a href="/">
             <span className="breadcrum-txt">Create Position</span>
@@ -16,7 +16,7 @@ function NavBreadcrumb() {
         </Breadcrumb.Item>
       ) : (
         <Breadcrumb.Item>
-          <a href="/positions">Dashboard</a>
+          <a href="/dashboard">Dashboard</a>
         </Breadcrumb.Item>
       )}
     </Breadcrumb>
