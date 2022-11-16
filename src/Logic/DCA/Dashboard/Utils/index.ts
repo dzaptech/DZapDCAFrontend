@@ -76,6 +76,8 @@ export const formatSwapInterval = (seconds: number) => {
     interval = 'Daily';
   } else if (hour === 168) {
     interval = 'Weekly';
+  } else if (hour === 1) {
+    interval = 'Hourly';
   }
   return interval;
 };

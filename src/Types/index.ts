@@ -10,7 +10,7 @@ export interface TokenTypes {
   logo: string;
   verified: boolean;
   swapRate: number;
-  allowance: BigNumber;
+  allowance: BigNumber | string;
 }
 
 export type ApprovalStatusType = {

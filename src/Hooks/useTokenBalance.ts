@@ -41,7 +41,7 @@ function useTokenBalance() {
         const itemIndex = updatedList.findIndex(
           (item: TokenTypes) => item.contract === contract,
         );
-        if (index >= 0) {
+        if (itemIndex >= 0) {
           updatedList[itemIndex].allowance = allowanceData[index];
         }
       });

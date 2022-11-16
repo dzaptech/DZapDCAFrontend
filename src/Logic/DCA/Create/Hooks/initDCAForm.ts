@@ -32,14 +32,14 @@ function initDCAForm() {
 
   const mapBalance = () => {
     const mappedData = toTokens.map((item) => {
-      const balance =
-        walletTokenList.find(
-          (walletItem) =>
-            walletItem.contract.toLowerCase() === item.contract.toLowerCase(),
-        )?.balance || '0';
+      const { balance, allowance } = walletTokenList.find(
+        (walletItem) =>
+          walletItem.contract.toLowerCase() === item.contract.toLowerCase(),
+      ) || { balance: '0', allowance: '0' };
       return {
         ...item,
         balance,
+        allowance,
       };
     });
     return mappedData;
