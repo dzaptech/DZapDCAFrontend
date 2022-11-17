@@ -8,6 +8,14 @@ function AppRoutes(): React.ReactElement {
   return (
     <Routes>
       <Route
+        path="/#/positions"
+        element={
+          <React.Suspense fallback={<>...</>}>
+            <DashboardPage />
+          </React.Suspense>
+        }
+      />
+      <Route
         path="/positions"
         element={
           <React.Suspense fallback={<>...</>}>

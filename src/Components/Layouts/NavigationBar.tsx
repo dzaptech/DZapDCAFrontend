@@ -9,11 +9,11 @@ function NavigationBar() {
   const { pathname } = window.location;
 
   const navigation = [
-    { name: 'Create', href: '/', current: pathname !== '/positions' },
+    { name: 'Create', href: '/', current: pathname !== '/#/positions' },
     {
       name: 'Positions',
-      href: '/positions',
-      current: pathname === '/positions',
+      href: '/#/positions',
+      current: pathname === '/#/positions',
     },
   ];
 
