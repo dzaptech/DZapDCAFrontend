@@ -5,6 +5,7 @@ import apolloClient from '../../../../Services/Apollo/apolloClient';
 import { GetAllPositions } from '../../../../Services/Apollo/Queries/graphQueries';
 import { apiGetAllTokens } from '../../../../Store/Action';
 import { TokenTypes } from '../../../../Types';
+import { PositionActions } from '../Constants/enums';
 
 export const getAllPositions = createAsyncThunk(
   'getAllPositions',
@@ -52,8 +53,14 @@ export const getAllPositions = createAsyncThunk(
           ...item,
         };
       });
-      console.log(positions);
-
+      positions.sort((x: any, y: any) =>
+        // eslint-disable-next-line no-nested-ternary
+        x.status === PositionActions.active
+          ? -1
+          : y.status === PositionActions.active
+          ? 1
+          : 0,
+      );
       thunkAPI.dispatch(setIsLoading(false));
       thunkAPI.dispatch(setPositions(positions));
     } catch (error) {

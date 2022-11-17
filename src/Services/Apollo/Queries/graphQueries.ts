@@ -4,7 +4,7 @@ export const GetAllPositions = gql`
   query GetAllPositions($id: String) {
     user(id: $id) {
       id
-      positions {
+      positions(orderDirection: desc, orderBy: id) {
         id
         user
         from {
@@ -29,7 +29,7 @@ export const GetAllPositions = gql`
         totalWithdrawn
         totalSwaps
         totalExecutedSwaps
-        history(orderBy: createdAtTimestamp) {
+        history(orderDirection: desc, orderBy: createdAtTimestamp) {
           id
           action
           transactionHash
