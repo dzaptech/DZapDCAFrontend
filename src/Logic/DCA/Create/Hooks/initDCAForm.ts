@@ -11,7 +11,11 @@ import { RootState } from '../../../../Store';
 import { TokenTypes } from '../../../../Types';
 import { getDefaultToken } from '../../../../Utils/AppUtils';
 import { parseJsonString } from '../../../../Utils/GeneralUtils';
-import { DCA_FORM_FIELD, SECONDARY_TOKEN } from '../Constants';
+import {
+  DCA_FORM_DEFAULT_VALUES,
+  DCA_FORM_FIELD,
+  SECONDARY_TOKEN,
+} from '../Constants';
 import { getFormValues, setFormValues } from '../Utils/FormUtils';
 
 function initDCAForm() {
@@ -107,7 +111,8 @@ function initDCAForm() {
       setHasAllowance(BigNumber.from(newFromToken.allowance || 0).gt('0'));
     }
   };
-  const cycleKey = Form.useWatch(DCA_FORM_FIELD.cycle, form) || 'daily';
+  const cycleKey =
+    Form.useWatch(DCA_FORM_FIELD.cycle, form) || DCA_FORM_DEFAULT_VALUES.cycle;
 
   const onChangeFromToken = ({ allowance, contract }: TokenTypes) => {
     if (nativeCurrencyAddresses.includes(contract)) {

@@ -10,7 +10,7 @@ export default function Summary({
 }: {
   currentFromToken: TokenTypes;
   form: any;
-  cycleKey: string;
+  cycleKey: number;
   hasAllowance: boolean;
 }) {
   const { summary, isDisable, isLoading, btn } = useSummary({

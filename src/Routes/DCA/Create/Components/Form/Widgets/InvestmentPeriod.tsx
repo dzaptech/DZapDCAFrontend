@@ -6,17 +6,15 @@ import {
 } from '../../../../../../Logic/DCA/Create/Constants';
 import { setFormValues } from '../../../../../../Logic/DCA/Create/Utils/FormUtils';
 
-function InvestmentPeriod({ form, cycleKey }: { form: any; cycleKey: string }) {
+function InvestmentPeriod({ form }: { form: any }) {
   const period = Form.useWatch(DCA_FORM_FIELD.period, form);
-  const cycle = INVESTMENT_CYCLE[cycleKey].value;
-
   return (
     <div>
-      <p className="font-semibold text-sm text-white mullish">How often?</p>
+      <p className="font-semibold text-sm text-white mullish mb-1">How often?</p>
       <Form.Item name={DCA_FORM_FIELD.cycle} id={DCA_FORM_FIELD.cycle}>
         <Radio.Group buttonStyle="solid">
           {Object.keys(INVESTMENT_CYCLE).map((key: string) => (
-            <Radio.Button className="btn-radio" value={key}>
+            <Radio.Button className="btn-radio" value={+key}>
               {INVESTMENT_CYCLE[key].label}
             </Radio.Button>
           ))}
@@ -33,11 +31,7 @@ function InvestmentPeriod({ form, cycleKey }: { form: any; cycleKey: string }) {
             className="w-full input-investment px-3"
           />
         </Form.Item>
-        <Radio.Group
-          className="ml-2"
-          value={+period || cycle}
-          buttonStyle="solid"
-        >
+        <Radio.Group className="ml-2" value={+period} buttonStyle="solid">
           {INVESTMENT_PERIOD.map((item) => (
             <Radio.Button
               onClick={() =>

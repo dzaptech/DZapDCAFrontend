@@ -47,7 +47,6 @@ function ModifyPosition({
     getBalance();
   }, []);
   const [form] = Form.useForm();
-  const cycleKey = Form.useWatch(DCA_FORM_FIELD.cycle, form) || 'daily';
   const amount = +Form.useWatch(DCA_FORM_FIELD.amount, form) || 0;
   const period =
     +Form.useWatch(DCA_FORM_FIELD.period, form) ||
@@ -110,7 +109,7 @@ function ModifyPosition({
                 currentFromToken={positionInfo.fromToken}
                 tokenBalance={tokenBalance}
               />
-              <InvestmentPeriod cycleKey={cycleKey} form={form} />
+              <InvestmentPeriod form={form} />
             </div>
             <Summary
               positionInfo={positionInfo}

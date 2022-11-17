@@ -50,7 +50,7 @@ function useCreateDCA() {
     const toToken: TokenTypes = parseJsonString(
       formValue[DCA_FORM_FIELD.toToken],
     );
-    const cycle = INVESTMENT_CYCLE[cycleKey].value * 86400;
+    const cycle = INVESTMENT_CYCLE[cycleKey].value;
     const contractAddress = DCA_CONTRACTS[dcaVersion][chainId];
     const abiPath = DCA_CONTRACTS[dcaVersion].abi;
     const amountInWei = parseUnitsInWei(amount, fromToken.decimals);

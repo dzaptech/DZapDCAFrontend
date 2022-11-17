@@ -52,7 +52,7 @@ function CreatePositionForm() {
             onChangeFromToken={onChangeFromToken}
           />
           <InvestmentAmount form={form} currentFromToken={currentFromToken} />
-          <InvestmentPeriod cycleKey={cycleKey} form={form} />
+          <InvestmentPeriod form={form} />
         </div>
         <Summary
           currentFromToken={currentFromToken}

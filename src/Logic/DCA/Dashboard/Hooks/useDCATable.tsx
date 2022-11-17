@@ -11,9 +11,9 @@ import { RootState } from '../../../../Store';
 import { TokenTypes } from '../../../../Types';
 import { getChainInfoValue } from '../../../../Utils/ChainUtils';
 import { abbreviateCurrency } from '../../../../Utils/GeneralUtils';
+import { INVESTMENT_CYCLE } from '../../Create/Constants';
 import { PositionActions } from '../Constants/enums';
 import { TimelineType } from '../Types';
-import { formatSwapInterval } from '../Utils';
 import useActions from './useActions';
 
 interface DataType {
@@ -113,7 +113,7 @@ function useDCATable() {
       title: 'Interval',
       key: 'swapInterval',
       dataIndex: 'swapInterval',
-      render: (value) => <>{formatSwapInterval(value.id)}</>,
+      render: (value) => <div>{INVESTMENT_CYCLE[+value.id].label}</div>,
     },
     {
       title: 'Executed',

@@ -14,7 +14,7 @@ export const DCA_FORM_DEFAULT_VALUES = {
   toToken: 'toToken',
   amount: 0.1,
   period: 30,
-  cycle: 'daily',
+  cycle: 14400,
 };
 
 export const INVESTMENT_PERIOD = [
@@ -38,21 +38,29 @@ export const INVESTMENT_CYCLE: {
     label: string;
   };
 } = {
-  hourly: {
-    value: 2 / (24 * 60),
+  120: {
+    value: 120,
     label: '2 min',
   },
-  daily: {
-    value: 1,
+  300: {
+    value: 300,
+    label: '5 min',
+  },
+  600: {
+    value: 600,
+    label: '10 min',
+  },
+  14400: {
+    value: 14400,
+    label: '4 hours',
+  },
+  86400: {
+    value: 86400,
     label: 'Daily',
   },
-  weekly: {
-    value: 7,
+  604800: {
+    value: 604800,
     label: 'Weekly',
-  },
-  monthly: {
-    value: 30,
-    label: 'Monthly',
   },
 };
 export const SECONDARY_TOKEN: { [key: number]: TokenTypes } = {

@@ -21,7 +21,9 @@ function Positions({ timelineData }: { timelineData: TimelineType }) {
     <List
       itemLayout="horizontal"
       dataSource={history.filter(
-        (item: PositionHistoryType) => item.action !== PositionActions.swapped,
+        (item: PositionHistoryType) =>
+          item.action !== PositionActions.swapped &&
+          item.action !== PositionActions.withdraw,
       )}
       renderItem={(item: PositionHistoryType) => {
         let description = 'Position created.';

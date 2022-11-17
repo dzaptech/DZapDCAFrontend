@@ -1,4 +1,5 @@
 import { Form } from 'antd';
+import { BigNumber } from 'ethers';
 import { useContext } from 'react';
 import { useSelector } from 'react-redux';
 import AuthContext from '../../../../Context/AuthContext';
@@ -7,6 +8,7 @@ import { TokenTypes } from '../../../../Types';
 import {
   abbreviateNumber,
   currencyFormatter,
+  formatSecondsToDHM,
 } from '../../../../Utils/GeneralUtils';
 import { DCA_FORM_FIELD, INVESTMENT_CYCLE } from '../Constants';
 import { DCATrxState } from '../Constants/enums';
@@ -18,7 +20,7 @@ function useSummary({
   hasAllowance,
 }: {
   form: any;
-  cycleKey: string;
+  cycleKey: number;
   currentFromToken: TokenTypes;
   hasAllowance: boolean;
 }) {
@@ -29,13 +31,14 @@ function useSummary({
   const { trxState } = useSelector((state: RootState) => state.dca);
   const amount = +Form.useWatch(DCA_FORM_FIELD.amount, form) || 0;
   const period = +Form.useWatch(DCA_FORM_FIELD.period, form);
-  const swapAmount = amount / period;
+  const swapAmount = amount / (period || 1);
   const balance = +currencyFormatter(
     currentFromToken.balance,
     currentFromToken.decimals,
   );
   const cycle = INVESTMENT_CYCLE[cycleKey].value;
   const isInsufficientFund = balance < amount;
+  const investmentPeriod = BigNumber.from(cycle || 0).mul(period || 1);
   const summary = [
     {
       id: 1,
@@ -50,7 +53,7 @@ function useSummary({
     {
       id: 3,
       key: 'Investment Period',
-      value: `${abbreviateNumber(period * cycle)} Days`,
+      value: formatSecondsToDHM(investmentPeriod.toNumber()),
     },
     {
       id: 4,
