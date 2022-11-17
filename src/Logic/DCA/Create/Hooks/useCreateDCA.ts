@@ -77,29 +77,15 @@ function useCreateDCA() {
     };
   };
 
-  const callAdminFunc = async (contract: any) => {
-    const tokens = ['0x0000000000000000000000000000000000000000'];
-    const estimateGas = await contract.estimateGas.addAllowedTokens(tokens);
-    await contract.addAllowedTokens(tokens, {
-      gasLimit: estimateGas.mul(gasMultiplier[0]).div(gasMultiplier[1]),
-    });
-  };
-
   const createPosition = async (contract: any, params: any) => {
     try {
       dispatch(setTrxType(TrxType.blockchainWrite));
-      if (true) {
-        const estimateGas = await contract.estimateGas.createPosition(
-          ...params,
-        );
-        const result = await contract.createPosition(...params, {
-          gasLimit: estimateGas.mul(gasMultiplier[0]).div(gasMultiplier[1]),
-        });
-        const res = await result.wait();
-        dispatch(setTrxResponse({ status: STATUS.success, data: res }));
-      } else {
-        await callAdminFunc(contract);
-      }
+      const estimateGas = await contract.estimateGas.createPosition(...params);
+      const result = await contract.createPosition(...params, {
+        gasLimit: estimateGas.mul(gasMultiplier[0]).div(gasMultiplier[1]),
+      });
+      const res = await result.wait();
+      dispatch(setTrxResponse({ status: STATUS.success, data: res }));
     } catch (error: any) {
       dispatch(setTrxResponse({ status: STATUS.error, data: error }));
       errorNotification('Error', error.message);
