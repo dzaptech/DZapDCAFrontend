@@ -1,37 +1,16 @@
 import React from 'react';
-import { Route, Routes } from 'react-router-dom';
-
-const DashboardPage = React.lazy(() => import('./DCA/Dashboard/DashboardPage'));
-const CreatePage = React.lazy(() => import('./DCA/Create/CreatePage'));
+import { HashRouter, Route, Switch } from 'react-router-dom';
+import CreatePage from './DCA/Create/CreatePage';
+import DashboardPage from './DCA/Dashboard/DashboardPage';
 
 function AppRoutes(): React.ReactElement {
   return (
-    <Routes>
-      <Route
-        path="/#/positions"
-        element={
-          <React.Suspense fallback={<>...</>}>
-            <DashboardPage />
-          </React.Suspense>
-        }
-      />
-      <Route
-        path="/positions"
-        element={
-          <React.Suspense fallback={<>...</>}>
-            <DashboardPage />
-          </React.Suspense>
-        }
-      />
-      <Route
-        path="/"
-        element={
-          <React.Suspense fallback={<>...</>}>
-            <CreatePage />
-          </React.Suspense>
-        }
-      />
-    </Routes>
+    <HashRouter>
+      <Switch>
+        <Route exact path="/" component={CreatePage} />
+        <Route path="/positions" component={DashboardPage} />
+      </Switch>
+    </HashRouter>
   );
 }
 
