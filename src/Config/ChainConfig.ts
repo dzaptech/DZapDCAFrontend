@@ -112,7 +112,7 @@ export const CHAIN_EXPLORER_LINK = {
 export const JSON_RPC_PROVIDER: { [key: number]: string } = {
   1: 'https://rpc.ankr.com/eth',
   56: 'https://rpc.ankr.com/bsc',
-  137: 'https://polygon-mainnet.g.alchemy.com/v2/aoOZJKHgcr-qQjBZ-TZyvZXBv4E38Jr7',
+  137: 'https://holy-old-sea.matic.discover.quiknode.pro/4d868853d8004aa200fff33b5054a73c60ecefd7/',
 };
 
 export const ADD_CHAIN_DATA: ChainDataType = {
