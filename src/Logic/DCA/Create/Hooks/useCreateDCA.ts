@@ -1,3 +1,4 @@
+import { BigNumber } from 'ethers';
 import { useContext } from 'react';
 import { useDispatch } from 'react-redux';
 import { dcaVersion } from '../../../../Config/AppConfig';
@@ -52,11 +53,12 @@ function useCreateDCA() {
     const cycle = INVESTMENT_CYCLE[cycleKey].value * 86400;
     const contractAddress = DCA_CONTRACTS[dcaVersion][chainId];
     const abiPath = DCA_CONTRACTS[dcaVersion].abi;
+    const amountInWei = parseUnitsInWei(amount, fromToken.decimals);
     const params = [
       fromToken.contract,
       toToken.contract,
       '0x',
-      parseUnitsInWei(amount, fromToken.decimals),
+      amountInWei,
       period,
       cycle,
     ];
@@ -80,19 +82,25 @@ function useCreateDCA() {
     };
   };
 
-  const createPosition = async (contract: any, params: any) => {
+  const createPosition = async (
+    contract: any,
+    params: any,
+    isNative: boolean,
+  ) => {
     try {
       dispatch(setTrxType(TrxType.blockchainWrite));
-      const estimateGas = await contract.estimateGas.createPosition(...params);
+      const estimateGas = await contract.estimateGas.createPosition(...params, {
+        value: isNative ? params[3] : BigNumber.from('0'),
+      });
       const result = await contract.createPosition(...params, {
         gasLimit: estimateGas.mul(gasMultiplier[0]).div(gasMultiplier[1]),
+        value: isNative ? params[3] : BigNumber.from('0'),
       });
       const res = await result.wait();
       dispatch(setTrxResponse({ status: STATUS.success, data: res }));
     } catch (error: any) {
       dispatch(setTrxResponse({ status: STATUS.error, data: error }));
       const message = extractErrorMessage(error);
-
       errorNotification('Error', message);
     }
   };
@@ -104,18 +112,18 @@ function useCreateDCA() {
       } else {
         dispatch(setTrxResponse(undefined));
         dispatch(setTrxState(DCATrxState.wait));
-        const { contract, params, hasAllowance, fromTokenContract } =
+        const { contract, params, hasAllowance, fromTokenContract, isNative } =
           await getParams(formValue);
         if (!hasAllowance) {
           dispatch(setTrxType(TrxType.approving));
           const res = await approve(fromTokenContract);
           if (res.status === STATUS.success) {
-            createPosition(contract, params);
+            createPosition(contract, params, isNative);
           } else {
             dispatch(setTrxResponse(res));
           }
         } else {
-          createPosition(contract, params);
+          createPosition(contract, params, isNative);
         }
       }
     } catch (err: any) {
