@@ -1,6 +1,7 @@
 export enum ActionType {
   terminate = 1,
   modify = 2,
+  withdrawSwapped = 3,
 }
 
 export enum PositionActions {

@@ -38,7 +38,7 @@ function useDCATable() {
 
   const { account } = useContext(AuthContext);
   const { trxState } = useSelector((state: RootState) => state.dca);
-  const { terminate, modifyPosition, retry } = useActions();
+  const { terminate, modifyPosition, retry, withdraw } = useActions();
   const columns: ColumnsType<DataType> = [
     {
       title: 'I/P',
@@ -187,6 +187,22 @@ function useDCATable() {
       dataIndex: 'action',
       render: (_, record: any) => (
         <div>
+          {BigNumber.from(record.toWithdraw).gt(0) && (
+            <Button
+              onClick={() => {
+                const terminateParams = [
+                  record.positionId,
+                  account,
+                  nativeCurrencyAddresses.includes(record.fromToken.contract),
+                ];
+                withdraw(terminateParams);
+              }}
+              disabled={isUnsupportedChain}
+              className="btn-table-action w-32 mt-2 mr-2"
+            >
+              Withdraw
+            </Button>
+          )}
           <Button
             onClick={() => {
               setPositionInfo(record);

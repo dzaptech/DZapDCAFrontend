@@ -29,7 +29,7 @@ export const GetAllPositions = gql`
         totalWithdrawn
         totalSwaps
         totalExecutedSwaps
-        history {
+        history(orderBy: createdAtTimestamp) {
           id
           action
           transactionHash

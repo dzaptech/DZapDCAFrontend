@@ -58,7 +58,7 @@ function WalletComponent() {
                       <p>{shortAddress(account)}</p>
                     </div>
                     <CopyToClipboard
-                      text="account"
+                      text={account}
                       onCopy={() => {
                         message.success({
                           content: 'Copied!',

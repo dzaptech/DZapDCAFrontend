@@ -54,6 +54,21 @@ function useActions() {
       errorNotification('Error', error.message);
     }
   };
+  const withdraw = async (params: any[]) => {
+    try {
+      initTrxData(params, ActionType.withdrawSwapped);
+      const contract = getContract();
+      const estimateGas = await contract.estimateGas.withdrawSwapped(...params);
+      const result = await contract.withdrawSwapped(...params, {
+        gasLimit: estimateGas.mul(gasMultiplier[0]).div(gasMultiplier[1]),
+      });
+      const res = await result.wait();
+      dispatch(setTrxResponse({ status: STATUS.success, data: res }));
+    } catch (error: any) {
+      dispatch(setTrxResponse({ status: STATUS.error, data: error }));
+      errorNotification('Error', error.message);
+    }
+  };
   const modifyPosition = async (params: any[]) => {
     try {
       initTrxData(params, ActionType.modify);
@@ -72,6 +87,8 @@ function useActions() {
   const retry = () => {
     if (actionType === ActionType.terminate) {
       terminate(actionParams);
+    } else if (actionType === ActionType.withdrawSwapped) {
+      withdraw(actionParams);
     } else {
       modifyPosition(actionParams);
     }
@@ -81,6 +98,7 @@ function useActions() {
     terminate,
     modifyPosition,
     retry,
+    withdraw,
   };
 }
 
