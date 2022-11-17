@@ -56,6 +56,8 @@ function ModifyPosition({
   let btn = 'MODIFY';
   if (amount <= 0) {
     btn = 'ENTER VALID AMOUNT';
+  } else if (!period) {
+    btn = 'ENTER INVESTMENT PERIOD';
   } else if (isInsufficientFund) {
     btn = 'INSUFFICIENT FUNDS';
   }
@@ -113,7 +115,7 @@ function ModifyPosition({
             <Summary
               positionInfo={positionInfo}
               btn={btn}
-              isDisabled={isInsufficientFund || amount <= 0}
+              isDisabled={isInsufficientFund || amount <= 0 || !period}
               period={period}
               amount={amount}
             />

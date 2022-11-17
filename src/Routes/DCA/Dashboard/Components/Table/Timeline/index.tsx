@@ -24,15 +24,15 @@ function Timeline({
       }}
     >
       <div className="m-auto p-6 rounded-lg bg-gray850">
-        <Tabs defaultActiveKey={TIMELINE_TABS.positions}>
+        <Tabs defaultActiveKey={TIMELINE_TABS.order}>
+          <Tabs.TabPane tab={TIMELINE_TABS.trades} key={TIMELINE_TABS.trades}>
+            <Order timelineData={timelineData} />
+          </Tabs.TabPane>
           <Tabs.TabPane
             tab={TIMELINE_TABS.positions}
             key={TIMELINE_TABS.positions}
           >
             <Positions timelineData={timelineData} />
-          </Tabs.TabPane>
-          <Tabs.TabPane tab={TIMELINE_TABS.trades} key={TIMELINE_TABS.trades}>
-            <Order timelineData={timelineData} />
           </Tabs.TabPane>
         </Tabs>
       </div>

@@ -1,18 +1,22 @@
 import { List } from 'antd';
 import moment from 'moment';
-import React from 'react';
+import React, { useContext } from 'react';
+import explorer from '../../../../../../Assets/Icons/explorer-green.svg';
+import AuthContext from '../../../../../../Context/AuthContext';
 import { PositionActions } from '../../../../../../Logic/DCA/Dashboard/Constants/enums';
 import {
   PositionHistoryType,
   TimelineType,
 } from '../../../../../../Logic/DCA/Dashboard/Types';
 import { parsePositionModifiedDesc } from '../../../../../../Logic/DCA/Dashboard/Utils';
+import { getHashExplorerLink } from '../../../../../../Utils/ChainUtils';
 
 function Positions({ timelineData }: { timelineData: TimelineType }) {
   const {
     history,
     tokenInfo: { fromToken },
   } = timelineData;
+  const { chainId } = useContext(AuthContext);
   return (
     <List
       itemLayout="horizontal"
@@ -43,6 +47,22 @@ function Positions({ timelineData }: { timelineData: TimelineType }) {
               description={
                 <p className="font-medium text-sm text-white mullish">
                   {description}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      window.open(
+                        getHashExplorerLink(item.transactionHash, chainId),
+                      );
+                    }}
+                    className="mt-1 flex justify-start items-center gap-x-2"
+                  >
+                    <p className="text-green300">View Transaction</p>
+                    <img
+                      src={explorer}
+                      className="w-5 h-5 object-contain"
+                      alt="explorer"
+                    />
+                  </button>
                 </p>
               }
             />

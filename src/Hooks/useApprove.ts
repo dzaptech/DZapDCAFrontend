@@ -34,7 +34,7 @@ function useApprove() {
       );
       return { status: STATUS.success, data: res };
     } catch (err: any) {
-      errorNotification('Approve', err?.message);
+      errorNotification('Approve', err?.error?.data?.message || 'Something went wrong!');
       Logger.error(err, { trxName: 'Approve' });
       return { status: STATUS.error, data: err };
     }

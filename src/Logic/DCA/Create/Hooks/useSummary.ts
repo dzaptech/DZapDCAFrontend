@@ -8,11 +8,7 @@ import {
   abbreviateNumber,
   currencyFormatter,
 } from '../../../../Utils/GeneralUtils';
-import {
-  DCA_FORM_DEFAULT_VALUES,
-  DCA_FORM_FIELD,
-  INVESTMENT_CYCLE,
-} from '../Constants';
+import { DCA_FORM_FIELD, INVESTMENT_CYCLE } from '../Constants';
 import { DCATrxState } from '../Constants/enums';
 
 function useSummary({
@@ -32,9 +28,7 @@ function useSummary({
   );
   const { trxState } = useSelector((state: RootState) => state.dca);
   const amount = +Form.useWatch(DCA_FORM_FIELD.amount, form) || 0;
-  const period =
-    +Form.useWatch(DCA_FORM_FIELD.period, form) ||
-    DCA_FORM_DEFAULT_VALUES.period;
+  const period = +Form.useWatch(DCA_FORM_FIELD.period, form);
   const swapAmount = amount / period;
   const balance = +currencyFormatter(
     currentFromToken.balance,
@@ -74,6 +68,8 @@ function useSummary({
       btn = 'INSUFFICIENT FUNDS';
     } else if (amount <= 0) {
       btn = 'ENTER VALID AMOUNT';
+    } else if (!period) {
+      btn = 'ENTER INVESTMENT PERIOD';
     } else {
       if (!hasAllowance) {
         btn = `Approve ${symbol}`;

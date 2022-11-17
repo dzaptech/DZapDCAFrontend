@@ -1,11 +1,14 @@
 import { List } from 'antd';
 import moment from 'moment';
-import React from 'react';
+import React, { useContext } from 'react';
+import explorer from '../../../../../../Assets/Icons/explorer-green.svg';
+import AuthContext from '../../../../../../Context/AuthContext';
 import { PositionActions } from '../../../../../../Logic/DCA/Dashboard/Constants/enums';
 import {
   PositionHistoryType,
   TimelineType,
 } from '../../../../../../Logic/DCA/Dashboard/Types';
+import { getHashExplorerLink } from '../../../../../../Utils/ChainUtils';
 import { abbreviateCurrency } from '../../../../../../Utils/GeneralUtils';
 
 function Order({ timelineData }: { timelineData: TimelineType }) {
@@ -13,6 +16,8 @@ function Order({ timelineData }: { timelineData: TimelineType }) {
     history,
     tokenInfo: { fromToken, toToken },
   } = timelineData;
+  const { chainId } = useContext(AuthContext);
+
   return (
     <List
       itemLayout="horizontal"
@@ -38,6 +43,22 @@ function Order({ timelineData }: { timelineData: TimelineType }) {
                   <>
                     {abbreviateCurrency(item.withdrawn, toToken.decimals)}{' '}
                     {toToken.symbol} withdrawn
+                    <button
+                      type="button"
+                      onClick={() => {
+                        window.open(
+                          getHashExplorerLink(item.transactionHash, chainId),
+                        );
+                      }}
+                      className="mt-1 flex justify-start items-center gap-x-2"
+                    >
+                      <p className="text-green300">View Transaction</p>
+                      <img
+                        src={explorer}
+                        className="w-5 h-5 object-contain"
+                        alt="explorer"
+                      />
+                    </button>
                   </>
                 ) : (
                   <>
@@ -46,6 +67,22 @@ function Order({ timelineData }: { timelineData: TimelineType }) {
                     {fromToken.symbol} for{' '}
                     {abbreviateCurrency(item.toAmount, toToken.decimals)}{' '}
                     {toToken.symbol}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        window.open(
+                          getHashExplorerLink(item.transactionHash, chainId),
+                        );
+                      }}
+                      className="mt-1 flex justify-start items-center gap-x-2"
+                    >
+                      <p className="text-green300">View Transaction</p>
+                      <img
+                        src={explorer}
+                        className="w-5 h-5 object-contain"
+                        alt="explorer"
+                      />
+                    </button>
                   </>
                 )}
               </p>

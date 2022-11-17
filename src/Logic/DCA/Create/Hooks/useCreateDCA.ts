@@ -88,7 +88,10 @@ function useCreateDCA() {
       dispatch(setTrxResponse({ status: STATUS.success, data: res }));
     } catch (error: any) {
       dispatch(setTrxResponse({ status: STATUS.error, data: error }));
-      errorNotification('Error', error.message);
+      errorNotification(
+        'Error',
+        error?.error?.data?.message || 'Something went wrong!',
+      );
     }
   };
 
@@ -114,7 +117,10 @@ function useCreateDCA() {
         }
       }
     } catch (err: any) {
-      errorNotification('Error', err.message);
+      errorNotification(
+        'Error',
+        err?.error?.data?.message || 'Something went wrong!',
+      );
       //   return { status: STATUS.error, data: err };
     }
   };

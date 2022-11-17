@@ -51,7 +51,10 @@ function useActions() {
       dispatch(setTrxResponse({ status: STATUS.success, data: res }));
     } catch (error: any) {
       dispatch(setTrxResponse({ status: STATUS.error, data: error }));
-      errorNotification('Error', error.message);
+      errorNotification(
+        'Error',
+        error?.error?.data?.message || 'Something went wrong!',
+      );
     }
   };
   const withdraw = async (params: any[]) => {
@@ -66,7 +69,10 @@ function useActions() {
       dispatch(setTrxResponse({ status: STATUS.success, data: res }));
     } catch (error: any) {
       dispatch(setTrxResponse({ status: STATUS.error, data: error }));
-      errorNotification('Error', error.message);
+      errorNotification(
+        'Error',
+        error?.error?.data?.message || 'Something went wrong!',
+      );
     }
   };
   const modifyPosition = async (params: any[]) => {
@@ -81,7 +87,10 @@ function useActions() {
       dispatch(setTrxResponse({ status: STATUS.success, data: res }));
     } catch (error: any) {
       dispatch(setTrxResponse({ status: STATUS.error, data: error }));
-      errorNotification('Error', error.message);
+      errorNotification(
+        'Error',
+        error?.error?.data?.message || 'Something went wrong!',
+      );
     }
   };
   const retry = () => {
