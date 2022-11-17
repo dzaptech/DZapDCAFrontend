@@ -10,20 +10,19 @@ import {
 } from '../../../../../../Logic/DCA/Dashboard/Types';
 import { parsePositionModifiedDesc } from '../../../../../../Logic/DCA/Dashboard/Utils';
 import { getHashExplorerLink } from '../../../../../../Utils/ChainUtils';
+import { abbreviateCurrency } from '../../../../../../Utils/GeneralUtils';
 
 function Positions({ timelineData }: { timelineData: TimelineType }) {
   const {
     history,
-    tokenInfo: { fromToken },
+    tokenInfo: { fromToken, toToken },
   } = timelineData;
   const { chainId } = useContext(AuthContext);
   return (
     <List
       itemLayout="horizontal"
       dataSource={history.filter(
-        (item: PositionHistoryType) =>
-          item.action !== PositionActions.swapped &&
-          item.action !== PositionActions.withdraw,
+        (item: PositionHistoryType) => item.action !== PositionActions.swapped,
       )}
       renderItem={(item: PositionHistoryType) => {
         let description = 'Position created.';
@@ -35,6 +34,12 @@ function Positions({ timelineData }: { timelineData: TimelineType }) {
           description = parsePositionModifiedDesc(item, fromToken);
         } else if (item.action === PositionActions.terminated) {
           description = 'Position terminated.';
+        } else if (item.action === PositionActions.withdraw) {
+          description = `Withdrawn : ${abbreviateCurrency(
+            item.withdrawn,
+            toToken.decimals,
+          )}
+            ${toToken.symbol} withdrawn`;
         }
         return (
           <List.Item>

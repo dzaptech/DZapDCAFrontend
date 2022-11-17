@@ -9,7 +9,10 @@ import {
   TimelineType,
 } from '../../../../../../Logic/DCA/Dashboard/Types';
 import { getHashExplorerLink } from '../../../../../../Utils/ChainUtils';
-import { abbreviateCurrency } from '../../../../../../Utils/GeneralUtils';
+import {
+  abbreviateCurrency,
+  abbreviateNumber,
+} from '../../../../../../Utils/GeneralUtils';
 
 function Order({ timelineData }: { timelineData: TimelineType }) {
   const {
@@ -22,9 +25,7 @@ function Order({ timelineData }: { timelineData: TimelineType }) {
     <List
       itemLayout="horizontal"
       dataSource={history.filter(
-        (item: PositionHistoryType) =>
-          item.action === PositionActions.swapped ||
-          item.action === PositionActions.withdraw,
+        (item: PositionHistoryType) => item.action === PositionActions.swapped,
       )}
       renderItem={(item: PositionHistoryType) => (
         <List.Item>
@@ -38,53 +39,29 @@ function Order({ timelineData }: { timelineData: TimelineType }) {
             }
             description={
               <p className="font-medium text-sm text-white mullish">
-                Execute Order :{' '}
-                {item.action === PositionActions.withdraw ? (
-                  <>
-                    {abbreviateCurrency(item.withdrawn, toToken.decimals)}{' '}
-                    {toToken.symbol} withdrawn
-                    <button
-                      type="button"
-                      onClick={() => {
-                        window.open(
-                          getHashExplorerLink(item.transactionHash, chainId),
-                        );
-                      }}
-                      className="mt-1 flex justify-start items-center gap-x-2"
-                    >
-                      <p className="text-green300">View Transaction</p>
-                      <img
-                        src={explorer}
-                        className="w-5 h-5 object-contain"
-                        alt="explorer"
-                      />
-                    </button>
-                  </>
-                ) : (
-                  <>
-                    Swap{' '}
-                    {abbreviateCurrency(item.fromAmount, fromToken.decimals)}{' '}
-                    {fromToken.symbol} for{' '}
-                    {abbreviateCurrency(item.toAmount, toToken.decimals)}{' '}
-                    {toToken.symbol}
-                    <button
-                      type="button"
-                      onClick={() => {
-                        window.open(
-                          getHashExplorerLink(item.transactionHash, chainId),
-                        );
-                      }}
-                      className="mt-1 flex justify-start items-center gap-x-2"
-                    >
-                      <p className="text-green300">View Transaction</p>
-                      <img
-                        src={explorer}
-                        className="w-5 h-5 object-contain"
-                        alt="explorer"
-                      />
-                    </button>
-                  </>
-                )}
+                Execute Order : Swap{' '}
+                {abbreviateCurrency(item.fromAmount, fromToken.decimals)}{' '}
+                {fromToken.symbol} for{' '}
+                {abbreviateCurrency(item.toAmount, toToken.decimals)}{' '}
+                {toToken.symbol} at{' '}
+                {abbreviateNumber(+item.toAmount / +item.fromAmount)}{' '}
+                {toToken.symbol}
+                <button
+                  type="button"
+                  onClick={() => {
+                    window.open(
+                      getHashExplorerLink(item.transactionHash, chainId),
+                    );
+                  }}
+                  className="mt-1 flex justify-start items-center gap-x-2"
+                >
+                  <p className="text-green300">View Transaction</p>
+                  <img
+                    src={explorer}
+                    className="w-5 h-5 object-contain"
+                    alt="explorer"
+                  />
+                </button>
               </p>
             }
           />

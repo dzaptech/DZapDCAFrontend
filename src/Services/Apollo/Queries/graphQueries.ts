@@ -4,7 +4,7 @@ export const GetAllPositions = gql`
   query GetAllPositions($id: String) {
     user(id: $id) {
       id
-      positions(orderDirection: desc, orderBy: id) {
+      positions {
         id
         user
         from {

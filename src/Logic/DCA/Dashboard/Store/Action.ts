@@ -1,4 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import _ from 'lodash';
 import { setIsLoading, setPositions } from '.';
 import { defaultChainId } from '../../../../Config/AppConfig';
 import apolloClient from '../../../../Services/Apollo/apolloClient';
@@ -24,7 +25,7 @@ export const getAllPositions = createAsyncThunk(
       });
       const { data: tokenList } = await apiGetAllTokens({ chainId });
       const res = data?.user?.positions || [];
-      const positions = res.map((item: any) => {
+      const rawPositions = res.map((item: any) => {
         const { logo: fromTokenLogo } =
           tokenList.find(
             (token: TokenTypes) =>
@@ -37,7 +38,7 @@ export const getAllPositions = createAsyncThunk(
           ) || {};
 
         return {
-          positionId: item.id,
+          positionId: +item.id,
           fromToken: {
             symbol: item.from.symbol,
             contract: item.from.id,
@@ -53,16 +54,17 @@ export const getAllPositions = createAsyncThunk(
           ...item,
         };
       });
-      positions.sort((x: any, y: any) =>
-        // eslint-disable-next-line no-nested-ternary
-        x.status === PositionActions.active
-          ? -1
-          : y.status === PositionActions.active
-          ? 1
-          : 0,
+      const positions = _.orderBy(rawPositions, ['positionId'], 'desc');
+      const activePositions = positions.filter(
+        (item: any) => item.status === PositionActions.active,
+      );
+      const nonActivePositions = positions.filter(
+        (item: any) => item.status !== PositionActions.active,
       );
       thunkAPI.dispatch(setIsLoading(false));
-      thunkAPI.dispatch(setPositions(positions));
+      thunkAPI.dispatch(
+        setPositions([...activePositions, ...nonActivePositions]),
+      );
     } catch (error) {
       console.log('apollo', error);
     }
