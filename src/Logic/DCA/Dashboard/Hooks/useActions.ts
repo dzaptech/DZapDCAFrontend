@@ -9,7 +9,10 @@ import { RootState } from '../../../../Store';
 import { setTrxType } from '../../../../Store/CommonReducer';
 import { getGasMultiplier } from '../../../../Utils/AppUtils';
 import { initializeContract } from '../../../../Utils/ContractUtils';
-import { errorNotification } from '../../../../Utils/NotificationUtils';
+import {
+  errorNotification,
+  extractErrorMessage,
+} from '../../../../Utils/NotificationUtils';
 import { DCATrxState } from '../../Create/Constants/enums';
 import { setTrxResponse, setTrxState } from '../../Create/Store';
 import { ActionType } from '../Constants/enums';
@@ -51,10 +54,8 @@ function useActions() {
       dispatch(setTrxResponse({ status: STATUS.success, data: res }));
     } catch (error: any) {
       dispatch(setTrxResponse({ status: STATUS.error, data: error }));
-      errorNotification(
-        'Error',
-        error?.error?.data?.message || 'Something went wrong!',
-      );
+      const message = extractErrorMessage(error);
+      errorNotification('Error', message);
     }
   };
   const withdraw = async (params: any[]) => {
@@ -69,10 +70,8 @@ function useActions() {
       dispatch(setTrxResponse({ status: STATUS.success, data: res }));
     } catch (error: any) {
       dispatch(setTrxResponse({ status: STATUS.error, data: error }));
-      errorNotification(
-        'Error',
-        error?.error?.data?.message || 'Something went wrong!',
-      );
+      const message = extractErrorMessage(error);
+      errorNotification('Error', message);
     }
   };
   const modifyPosition = async (params: any[]) => {
@@ -87,10 +86,8 @@ function useActions() {
       dispatch(setTrxResponse({ status: STATUS.success, data: res }));
     } catch (error: any) {
       dispatch(setTrxResponse({ status: STATUS.error, data: error }));
-      errorNotification(
-        'Error',
-        error?.error?.data?.message || 'Something went wrong!',
-      );
+      const message = extractErrorMessage(error);
+      errorNotification('Error', message);
     }
   };
   const retry = () => {

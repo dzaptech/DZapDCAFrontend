@@ -4,10 +4,7 @@ import {
   INVESTMENT_PERIOD,
 } from '../../../../../../../Logic/DCA/Create/Constants';
 import { setFormValues } from '../../../../../../../Logic/DCA/Create/Utils/FormUtils';
-import {
-  DCA_FORM_DEFAULT_VALUES,
-  DCA_FORM_FIELD,
-} from '../../../../../../../Logic/DCA/Dashboard/Constants';
+import { DCA_FORM_FIELD } from '../../../../../../../Logic/DCA/Dashboard/Constants';
 
 function InvestmentPeriod({ form, cycleKey }: { form: any; cycleKey: string }) {
   const period = Form.useWatch(DCA_FORM_FIELD.period, form);
@@ -21,7 +18,7 @@ function InvestmentPeriod({ form, cycleKey }: { form: any; cycleKey: string }) {
       <div className="flex">
         <Form.Item name={DCA_FORM_FIELD.period} id={DCA_FORM_FIELD.period}>
           <Input
-            placeholder={DCA_FORM_DEFAULT_VALUES.period.toString()}
+            placeholder="Enter period"
             type="number"
             className="w-full input-investment px-3"
           />

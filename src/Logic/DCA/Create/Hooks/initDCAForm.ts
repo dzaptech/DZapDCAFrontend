@@ -11,7 +11,6 @@ import { RootState } from '../../../../Store';
 import { TokenTypes } from '../../../../Types';
 import { getDefaultToken } from '../../../../Utils/AppUtils';
 import { parseJsonString } from '../../../../Utils/GeneralUtils';
-import { errorNotification } from '../../../../Utils/NotificationUtils';
 import { DCA_FORM_FIELD, SECONDARY_TOKEN } from '../Constants';
 import { getFormValues, setFormValues } from '../Utils/FormUtils';
 
@@ -105,8 +104,7 @@ function initDCAForm() {
         DCA_FORM_FIELD.fromToken,
         JSON.stringify(newFromToken),
       );
-    } else {
-      errorNotification('Swap not allowed!', 'Temporary');
+      setHasAllowance(BigNumber.from(newFromToken.allowance || 0).gt('0'));
     }
   };
   const cycleKey = Form.useWatch(DCA_FORM_FIELD.cycle, form) || 'daily';

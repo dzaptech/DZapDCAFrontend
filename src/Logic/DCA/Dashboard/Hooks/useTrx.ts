@@ -44,7 +44,7 @@ function useTrx() {
       headIcon = rejected;
       head = 'Transaction Rejected';
       message =
-        'Whoopsie, Swap Rejected in Wallet! Try Again and Click on confirm when prompted in your wallet.';
+        'Whoopsie, Trx Rejected in Wallet! Try Again and Click on confirm when prompted in your wallet.';
     } else {
       headIcon = failed;
       head = 'Transaction Failed';

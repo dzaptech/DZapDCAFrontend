@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import { Link } from 'react-router-dom';
 import approved from '../../../../../Assets/Icons/approved.svg';
 import explorer from '../../../../../Assets/Icons/explorer-green.svg';
 import AuthContext from '../../../../../Context/AuthContext';
@@ -48,13 +49,13 @@ function Receipt({ data, onFinish }: { data: any; onFinish: Function }) {
             alt="explorer"
           />
         </button>
-        <button
-          onClick={() => onFinish()}
-          type="button"
+        <Link
           className="h-12 mt-5 w-full bg-green300 rounded flex justify-center items-center text-black font-semibold"
+          to="/positions"
+          onClick={() => onFinish()}
         >
-          Finish
-        </button>
+          <span className="text-black">View Position</span>
+        </Link>
       </div>
     </div>
   );

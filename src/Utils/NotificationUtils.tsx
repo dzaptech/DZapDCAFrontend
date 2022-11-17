@@ -52,3 +52,13 @@ export const warningNotification = (message: string, description: string) => {
     top: 80,
   });
 };
+
+export const extractErrorMessage = (error: any) => {
+  let message = '';
+  if (error?.reason === 'user rejected transaction') {
+    message = 'Whoopsie, Trx Rejected in Wallet! Try Again';
+  } else {
+    message = error?.error?.data?.message || 'Something went wrong!';
+  }
+  return message;
+};

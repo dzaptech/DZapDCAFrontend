@@ -1,6 +1,5 @@
 import { Form, Input, Radio } from 'antd';
 import {
-  DCA_FORM_DEFAULT_VALUES,
   DCA_FORM_FIELD,
   INVESTMENT_CYCLE,
   INVESTMENT_PERIOD,
@@ -29,7 +28,7 @@ function InvestmentPeriod({ form, cycleKey }: { form: any; cycleKey: string }) {
       <div className="flex">
         <Form.Item name={DCA_FORM_FIELD.period} id={DCA_FORM_FIELD.period}>
           <Input
-            placeholder={DCA_FORM_DEFAULT_VALUES.period.toString()}
+            placeholder="Enter period"
             type="number"
             className="w-full input-investment px-3"
           />

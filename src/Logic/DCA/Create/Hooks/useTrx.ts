@@ -6,7 +6,6 @@ import rejected from '../../../../Assets/Icons/rejected.png';
 import waiting from '../../../../Assets/Loader/pulse-ring.svg';
 import { STATUS } from '../../../../Constants/AppConstants';
 import { TrxType } from '../../../../Constants/enums';
-import useTokenBalance from '../../../../Hooks/useTokenBalance';
 import { RootState } from '../../../../Store';
 import { DCATrxState } from '../Constants/enums';
 import { setIsInsufficientGasFee, setTrxResponse, setTrxState } from '../Store';
@@ -16,7 +15,6 @@ function useTrx() {
   const { nativeCurrencyInfo, trxType } = useSelector(
     (state: RootState) => state.common,
   );
-  const { getAllWalletBalances } = useTokenBalance();
   const dispatch = useDispatch();
   const { balance: nativeBalance } = nativeCurrencyInfo;
   const isInsufficientGasFee = nativeBalance === 0;
@@ -40,7 +38,7 @@ function useTrx() {
       headIcon = rejected;
       head = 'Transaction Rejected';
       message =
-        'Whoopsie, Swap Rejected in Wallet! Try Again and Click on confirm when prompted in your wallet.';
+        'Whoopsie, Trx Rejected in Wallet! Try Again and Click on confirm when prompted in your wallet.';
     } else {
       headIcon = failed;
       head = 'Transaction Failed';
@@ -66,7 +64,6 @@ function useTrx() {
   };
 
   const onFinish = () => {
-    getAllWalletBalances();
     dispatch(setIsInsufficientGasFee(false));
     dispatch(setTrxResponse(undefined));
     dispatch(setTrxState(DCATrxState.unset));

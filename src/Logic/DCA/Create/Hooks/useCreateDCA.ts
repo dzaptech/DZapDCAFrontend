@@ -16,7 +16,10 @@ import {
   parseUnitsInWei,
 } from '../../../../Utils/ContractUtils';
 import { parseJsonString } from '../../../../Utils/GeneralUtils';
-import { errorNotification } from '../../../../Utils/NotificationUtils';
+import {
+  errorNotification,
+  extractErrorMessage,
+} from '../../../../Utils/NotificationUtils';
 import {
   DCA_FORM_DEFAULT_VALUES,
   DCA_FORM_FIELD,
@@ -88,10 +91,9 @@ function useCreateDCA() {
       dispatch(setTrxResponse({ status: STATUS.success, data: res }));
     } catch (error: any) {
       dispatch(setTrxResponse({ status: STATUS.error, data: error }));
-      errorNotification(
-        'Error',
-        error?.error?.data?.message || 'Something went wrong!',
-      );
+      const message = extractErrorMessage(error);
+
+      errorNotification('Error', message);
     }
   };
 
