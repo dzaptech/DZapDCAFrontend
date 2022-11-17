@@ -56,7 +56,7 @@ function useSummary({
     {
       id: 3,
       key: 'Investment Period',
-      value: `${period * cycle} Days`,
+      value: `${abbreviateNumber(period * cycle)} Days`,
     },
     {
       id: 4,

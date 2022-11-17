@@ -32,7 +32,7 @@ export default function Summary({
     {
       id: 3,
       key: 'Investment Period',
-      value: `${period} Days`,
+      value: `${abbreviateNumber(period)} Days`,
     },
     {
       id: 4,
