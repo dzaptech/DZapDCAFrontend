@@ -47,7 +47,7 @@ function useSummary({
     },
     {
       id: 2,
-      key: 'Recurring cycle',
+      key: 'Frequency',
       value: INVESTMENT_CYCLE[cycleKey].label,
     },
     {

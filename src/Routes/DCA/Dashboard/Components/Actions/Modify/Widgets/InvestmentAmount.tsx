@@ -21,7 +21,7 @@ function InvestmentAmount({
   return (
     <div>
       <p className="mb-1 font-semibold text-sm text-white mullish">
-        Investment amount
+        Total Investment Amount
       </p>
       <Form.Item name={DCA_FORM_FIELD.amount} id={DCA_FORM_FIELD.amount}>
         <Input

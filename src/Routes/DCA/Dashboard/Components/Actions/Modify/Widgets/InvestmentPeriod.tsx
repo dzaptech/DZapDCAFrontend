@@ -9,7 +9,7 @@ function InvestmentPeriod({ form }: { form: any }) {
   return (
     <div>
       <p className="mb-1 mt-8 font-semibold text-sm text-white mullish">
-        Investment Period
+        How many times
       </p>
       <div className="flex">
         <Form.Item name={DCA_FORM_FIELD.period} id={DCA_FORM_FIELD.period}>

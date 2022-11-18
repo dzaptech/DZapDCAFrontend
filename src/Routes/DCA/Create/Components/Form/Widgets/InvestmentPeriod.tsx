@@ -10,7 +10,7 @@ function InvestmentPeriod({ form }: { form: any }) {
   const period = Form.useWatch(DCA_FORM_FIELD.period, form);
   return (
     <div>
-      <p className="font-semibold text-sm text-white mullish mb-1">How often?</p>
+      <p className="font-semibold text-sm text-white mullish mb-1">Frequency</p>
       <Form.Item name={DCA_FORM_FIELD.cycle} id={DCA_FORM_FIELD.cycle}>
         <Radio.Group buttonStyle="solid">
           {Object.keys(INVESTMENT_CYCLE).map((key: string) => (
@@ -21,7 +21,7 @@ function InvestmentPeriod({ form }: { form: any }) {
         </Radio.Group>
       </Form.Item>
       <p className="mb-1 mt-8 font-semibold text-sm text-white mullish">
-        Investment Period
+        How many times
       </p>
       <div className="flex">
         <Form.Item name={DCA_FORM_FIELD.period} id={DCA_FORM_FIELD.period}>

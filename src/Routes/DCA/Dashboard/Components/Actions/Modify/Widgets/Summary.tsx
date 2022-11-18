@@ -26,7 +26,7 @@ export default function Summary({
     },
     {
       id: 2,
-      key: 'Recurring cycle',
+      key: 'Frequency',
       value: formatSwapInterval(interval),
     },
     {
