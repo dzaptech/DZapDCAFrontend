@@ -1,5 +1,4 @@
 import { Form, Modal } from 'antd';
-import { BigNumber } from 'ethers';
 import { useContext, useEffect, useState } from 'react';
 import '../../../../../../Assets/Css/DCA/Create.scss';
 import { nativeCurrencyAddresses } from '../../../../../../Config/ChainConfig';
@@ -48,21 +47,14 @@ function ModifyPosition({
   }, []);
   const [form] = Form.useForm();
   const amount = +Form.useWatch(DCA_FORM_FIELD.amount, form) || 0;
-  const period =
-    +Form.useWatch(DCA_FORM_FIELD.period, form) ||
-    DCA_FORM_DEFAULT_VALUES.period;
+  const period = +Form.useWatch(DCA_FORM_FIELD.period, form);
   const isInsufficientFund = tokenBalance < amount;
   let btn = 'MODIFY';
-  if (amount <= 0) {
-    btn = 'ENTER VALID AMOUNT';
-  } else if (!period) {
+  if (!period) {
     btn = 'ENTER INVESTMENT PERIOD';
   } else if (isInsufficientFund) {
     btn = 'INSUFFICIENT FUNDS';
   }
-  const currentAmount = BigNumber.from(positionInfo.rate).mul(
-    positionInfo.remainingSwaps,
-  );
   return (
     <Modal
       centered
@@ -76,22 +68,18 @@ function ModifyPosition({
         <Form
           id="modifyPosition"
           onFinish={(formValue) => {
-            const inputtedAmount =
-              formValue[DCA_FORM_FIELD.amount] ||
-              DCA_FORM_DEFAULT_VALUES.amount;
+            const inputtedAmount = formValue[DCA_FORM_FIELD.amount] || 0;
             const amountInWei = parseUnitsInWei(
               inputtedAmount,
               fromToken.decimals,
             );
-            const isInc = currentAmount.lt(amountInWei);
+            const { isInc } = formValue;
             const params = [
               positionInfo.positionId,
-              isInc
-                ? BigNumber.from(amountInWei).sub(currentAmount)
-                : currentAmount.sub(amountInWei),
+              amountInWei,
               formValue[DCA_FORM_FIELD.period],
               '0x',
-              currentAmount.lt(amountInWei),
+              isInc,
               nativeCurrencyAddresses.includes(fromToken.contract),
             ];
             modifyPosition(params);
@@ -99,6 +87,7 @@ function ModifyPosition({
           form={form}
           initialValues={{
             [DCA_FORM_FIELD.period]: DCA_FORM_DEFAULT_VALUES.period,
+            isInc: true,
           }}
         >
           <div className="md:grid md:grid-cols-2 md:gap-6">
@@ -114,8 +103,8 @@ function ModifyPosition({
             <Summary
               positionInfo={positionInfo}
               btn={btn}
-              isDisabled={isInsufficientFund || amount <= 0 || !period}
-              period={period}
+              isDisabled={isInsufficientFund || !period}
+              period={period || 1}
               amount={amount}
             />
           </div>

@@ -1,6 +1,10 @@
+import { BigNumber } from 'ethers';
 import Button from '../../../../../../../Components/Button/Button';
-import { formatSwapInterval } from '../../../../../../../Logic/DCA/Dashboard/Utils';
-import { abbreviateNumber } from '../../../../../../../Utils/GeneralUtils';
+import { INVESTMENT_CYCLE } from '../../../../../../../Logic/DCA/Create/Constants';
+import {
+  abbreviateNumber,
+  formatSecondsToDHM,
+} from '../../../../../../../Utils/GeneralUtils';
 
 export default function Summary({
   positionInfo,
@@ -15,8 +19,11 @@ export default function Summary({
   period: number;
   amount: number;
 }) {
-  const { fromToken, interval } = positionInfo;
+  const { fromToken, swapInterval } = positionInfo;
   const swapAmount = amount / period;
+  const investmentPeriod = BigNumber.from(swapInterval.id || 0).mul(
+    period || 1,
+  );
 
   const summary = [
     {
@@ -27,12 +34,12 @@ export default function Summary({
     {
       id: 2,
       key: 'Frequency',
-      value: formatSwapInterval(interval),
+      value: INVESTMENT_CYCLE[swapInterval.id].label,
     },
     {
       id: 3,
       key: 'Investment Period',
-      value: `${abbreviateNumber(period)} Days`,
+      value: formatSecondsToDHM(investmentPeriod.toNumber()),
     },
     {
       id: 4,

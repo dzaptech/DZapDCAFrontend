@@ -1,4 +1,4 @@
-import { Form, Input } from 'antd';
+import { Form, Input, Radio } from 'antd';
 import wallet from '../../../../../../../Assets/Icons/wallet.svg';
 import Button from '../../../../../../../Components/Button/Button';
 import { setFormValues } from '../../../../../../../Logic/DCA/Create/Utils/FormUtils';
@@ -23,7 +23,21 @@ function InvestmentAmount({
       <p className="mb-1 font-semibold text-sm text-white mullish">
         Total Investment Amount
       </p>
-      <Form.Item name={DCA_FORM_FIELD.amount} id={DCA_FORM_FIELD.amount}>
+      <Form.Item name="isInc" id="isInc" className="-mb-0">
+        <Radio.Group buttonStyle="solid" defaultValue>
+          <Radio.Button className="btn-radio" value>
+            Increment
+          </Radio.Button>
+          <Radio.Button className="btn-radio" value={false}>
+            Decrement
+          </Radio.Button>
+        </Radio.Group>
+      </Form.Item>
+      <Form.Item
+        className="mt-2"
+        name={DCA_FORM_FIELD.amount}
+        id={DCA_FORM_FIELD.amount}
+      >
         <Input
           placeholder="Enter amount"
           type="number"
@@ -34,6 +48,7 @@ function InvestmentAmount({
               alt={getAlternateTokenIcon()}
             />
           }
+          defaultValue="0"
           suffix={
             <Button
               onClick={() => setFormValues(form, 'amount', tokenBalance)}
