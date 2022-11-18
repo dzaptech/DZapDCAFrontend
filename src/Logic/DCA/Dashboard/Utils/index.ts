@@ -7,7 +7,10 @@ import {
   initializeContract,
   initializeReadOnlyProvider,
 } from '../../../../Utils/ContractUtils';
-import { abbreviateCurrency } from '../../../../Utils/GeneralUtils';
+import {
+  abbreviateNumber,
+  currencyFormatter,
+} from '../../../../Utils/GeneralUtils';
 import { EVENT_CREATE_POSITION } from '../Constants';
 import { PositionActions } from '../Constants/enums';
 import { PositionHistoryType } from '../Types';
@@ -89,32 +92,34 @@ export const parsePositionModifiedDesc = (
   let description = '';
   const amount = BigNumber.from(item.rate).mul(item.remainingSwaps);
   const prevAmount = BigNumber.from(item.prevRate).mul(item.prevRemainingSwaps);
+  const isAmountModified = !amount.eq(prevAmount);
   const amountModifyType = amount.gt(prevAmount)
     ? 'incremented'
     : 'decremented';
+
+  const fromAmount = abbreviateNumber(
+    currencyFormatter(prevAmount, fromToken.decimals),
+    6,
+  );
+  const toAmount = abbreviateNumber(
+    currencyFormatter(amount, fromToken.decimals),
+    6,
+  );
+  const amountMsg = isAmountModified
+    ? `Amount ${amountModifyType} from ${fromAmount} ${fromToken.symbol} to ${toAmount} ${fromToken.symbol}`
+    : `Amount remains same ${toAmount} ${fromToken.symbol}`;
+
   const durationModifyType = BigNumber.from(item.remainingSwaps).gt(
     item.prevRemainingSwaps,
   )
     ? 'incremented'
     : 'decremented';
   if (item.action === PositionActions.modifyDuration) {
-    description = `Duration ${durationModifyType} from ${item.prevRemainingSwaps} to ${item.remainingSwaps}, amount remains same ${amount} ${fromToken.symbol}`;
+    description = `Duration ${durationModifyType} from ${item.prevRemainingSwaps} to ${item.remainingSwaps}, ${amountMsg}`;
   } else if (item.action === PositionActions.modifyRate) {
-    description = `Amount ${amountModifyType} from ${abbreviateCurrency(
-      prevAmount,
-      fromToken.decimals,
-    )} ${fromToken.symbol} to ${abbreviateCurrency(
-      amount,
-      fromToken.decimals,
-    )} ${fromToken.symbol}, Duration remains same ${item.remainingSwaps}`;
+    description = `${amountMsg}, Duration remains same ${item.remainingSwaps}`;
   } else {
-    description = `Amount ${amountModifyType} from ${abbreviateCurrency(
-      prevAmount,
-      fromToken.decimals,
-    )} ${fromToken.symbol} to ${abbreviateCurrency(
-      amount,
-      fromToken.decimals,
-    )} ${fromToken.symbol}, Duration ${durationModifyType} by ${Math.abs(
+    description = `${amountMsg}, Duration ${durationModifyType} by ${Math.abs(
       +item.prevRemainingSwaps - +item.remainingSwaps,
     )}`;
   }
