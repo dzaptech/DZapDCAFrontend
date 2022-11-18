@@ -37,7 +37,7 @@ export default function Summary({
     {
       id: 2,
       key: 'Frequency',
-      value: INVESTMENT_CYCLE[swapInterval.id].label,
+      value: INVESTMENT_CYCLE[swapInterval.id]?.label || '2 min',
     },
     {
       id: 3,

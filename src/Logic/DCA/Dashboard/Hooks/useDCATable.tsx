@@ -113,7 +113,9 @@ function useDCATable() {
       title: 'Interval',
       key: 'swapInterval',
       dataIndex: 'swapInterval',
-      render: (value) => <div>{INVESTMENT_CYCLE[+value.id].label}</div>,
+      render: (value) => (
+        <div>{INVESTMENT_CYCLE[+value.id]?.label || '2 min'}</div>
+      ),
     },
     {
       title: 'Executed',

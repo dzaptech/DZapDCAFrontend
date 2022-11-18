@@ -9,10 +9,7 @@ import {
   TimelineType,
 } from '../../../../../../Logic/DCA/Dashboard/Types';
 import { getHashExplorerLink } from '../../../../../../Utils/ChainUtils';
-import {
-  abbreviateCurrency,
-  abbreviateNumber,
-} from '../../../../../../Utils/GeneralUtils';
+import { abbreviateCurrency } from '../../../../../../Utils/GeneralUtils';
 
 function Order({ timelineData }: { timelineData: TimelineType }) {
   const {
@@ -43,9 +40,10 @@ function Order({ timelineData }: { timelineData: TimelineType }) {
                 {abbreviateCurrency(item.fromAmount, fromToken.decimals)}{' '}
                 {fromToken.symbol} for{' '}
                 {abbreviateCurrency(item.toAmount, toToken.decimals)}{' '}
-                {toToken.symbol} at{' '}
-                {abbreviateNumber(+item.toAmount / +item.fromAmount)}{' '}
                 {toToken.symbol}
+                {/* at{' '}
+                {abbreviateNumber(+item.toAmount / +item.fromAmount)}{' '}
+                {toToken.symbol} */}
                 <button
                   type="button"
                   onClick={() => {
