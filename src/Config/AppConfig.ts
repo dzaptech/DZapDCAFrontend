@@ -18,5 +18,5 @@ export const defaultChainId = 137;
 
 export const GRAPH_API: { [key: number]: string } = {
   [defaultChainId]:
-    'https://api.thegraph.com/subgraphs/name/dante055/dca-test-polygon-mainnet',
+    'https://api.thegraph.com/subgraphs/name/dante055/dca-hack-polygon',
 };

@@ -54,6 +54,8 @@ function useCreateDCA() {
     const contractAddress = DCA_CONTRACTS[dcaVersion][chainId];
     const abiPath = DCA_CONTRACTS[dcaVersion].abi;
     const amountInWei = parseUnitsInWei(amount, fromToken.decimals);
+    const isNative = nativeCurrencyAddresses.includes(fromToken.contract);
+
     const params = [
       fromToken.contract,
       toToken.contract,
@@ -61,9 +63,9 @@ function useCreateDCA() {
       amountInWei,
       period,
       cycle,
+      isNative,
     ];
     let hasAllowance = true;
-    const isNative = nativeCurrencyAddresses.includes(fromToken.contract);
     if (!isNative) {
       const { allowance } = await getAllowance(fromToken.contract);
       hasAllowance = allowance?.gt('0') || false;
