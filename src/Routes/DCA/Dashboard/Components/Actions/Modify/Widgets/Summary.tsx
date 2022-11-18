@@ -12,15 +12,18 @@ export default function Summary({
   isDisabled,
   period,
   amount,
+  totalInvestmentAmt,
 }: {
   positionInfo: any;
   btn: string;
   isDisabled: boolean;
+  totalInvestmentAmt: number;
   period: number;
   amount: number;
 }) {
   const { fromToken, swapInterval } = positionInfo;
   const swapAmount = amount / period;
+
   const investmentPeriod = BigNumber.from(swapInterval.id || 0).mul(
     period || 1,
   );
@@ -44,7 +47,7 @@ export default function Summary({
     {
       id: 4,
       key: 'Total Investment Amount',
-      value: `${abbreviateNumber(amount)} ${fromToken.symbol}`,
+      value: `${abbreviateNumber(totalInvestmentAmt)} ${fromToken.symbol}`,
     },
   ];
   return (

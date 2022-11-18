@@ -1,4 +1,5 @@
 import { Form, Modal } from 'antd';
+import { BigNumber } from 'ethers';
 import { useContext, useEffect, useState } from 'react';
 import '../../../../../../Assets/Css/DCA/Create.scss';
 import { nativeCurrencyAddresses } from '../../../../../../Config/ChainConfig';
@@ -46,11 +47,21 @@ function ModifyPosition({
     getBalance();
   }, []);
   const [form] = Form.useForm();
+  const isIncrement = Form.useWatch('isInc', form);
   const amount = +Form.useWatch(DCA_FORM_FIELD.amount, form) || 0;
   const period = +Form.useWatch(DCA_FORM_FIELD.period, form);
   const isInsufficientFund = tokenBalance < amount;
+  const currentAmount = +currencyFormatter(
+    BigNumber.from(positionInfo.rate).mul(positionInfo.remainingSwaps),
+    fromToken.decimals,
+  );
+  const totalInvestmentAmt = isIncrement
+    ? amount + currentAmount
+    : currentAmount - amount;
   let btn = 'MODIFY';
-  if (!period) {
+  if (totalInvestmentAmt < 0) {
+    btn = 'ENTER VALID AMOUNT';
+  } else if (!period) {
     btn = 'ENTER INVESTMENT PERIOD';
   } else if (isInsufficientFund) {
     btn = 'INSUFFICIENT FUNDS';
@@ -103,9 +114,12 @@ function ModifyPosition({
             <Summary
               positionInfo={positionInfo}
               btn={btn}
-              isDisabled={isInsufficientFund || !period}
+              isDisabled={
+                isInsufficientFund || !period || totalInvestmentAmt < 0
+              }
               period={period || 1}
               amount={amount}
+              totalInvestmentAmt={totalInvestmentAmt}
             />
           </div>
         </Form>
